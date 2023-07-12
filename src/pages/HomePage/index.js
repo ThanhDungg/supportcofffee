@@ -269,6 +269,7 @@ function HomePage() {
 
    //Xem chi tiết coffee để mua
    const clickStatus = (id) => {
+      setQuantityCoffee(1);
       setCoffee(true);
       listCoffee.map((item) => {
          if (item.id == id) {
