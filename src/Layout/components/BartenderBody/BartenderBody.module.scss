@@ -1,0 +1,17 @@
+.wrapper {
+   height: 500px;
+   text-align: center;
+   font-size: 40px;
+}
+
+.btn {
+   padding: 32px 64px;
+   margin-top: 100px;
+   background-color: #f48c8c;
+   border-color: #f48c8c;
+   cursor: pointer;
+
+   &:hover {
+      opacity: 0.8;
+   }
+}

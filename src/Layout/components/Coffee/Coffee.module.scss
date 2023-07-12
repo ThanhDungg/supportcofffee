@@ -1,0 +1,67 @@
+@keyframes ani {
+   0% {
+      opacity: 0;
+   }
+   100% {
+      opacity: 1;
+   }
+}
+
+@mixin anima() {
+   animation: 0.5s ani ease;
+}
+
+.wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+   background-color: rgba(0, 0, 0, 0.3);
+}
+
+.coffee {
+   display: flex;
+   position: absolute;
+   border-radius: 16px;
+   right: 30%;
+   top: 15%;
+   width: 40%;
+   height: 60%;
+   background-color: #ccc;
+   @include anima();
+}
+
+.title {
+   margin-top: 20px;
+   margin-left: 40px;
+   line-height: 1.6;
+}
+
+.price {
+   color: #f05e5e;
+}
+
+.name-coffee {
+   font-size: 20px;
+   font-weight: 600;
+}
+
+.total {
+   color: #e80c0c;
+}
+
+.quantity {
+   font-size: 20px;
+}
+
+.note {
+   text-align: justify;
+   line-height: 1.4;
+   max-width: 240px;
+   height: 140px;
+}
+
+.btn {
+   margin-left: 30px;
+}

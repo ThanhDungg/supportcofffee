@@ -1,0 +1,52 @@
+.wrapper {
+   height: 400px;
+}
+
+.profile-body {
+   margin-left: 20%;
+   height: 80%;
+   margin-top: 7%;
+   width: 60%;
+   border: 1px solid #979696;
+   border-radius: 8px;
+}
+
+.form-img {
+   width: 25%;
+   height: 100%;
+   border-right: 1px solid #dfdcdc;
+   text-align: center;
+}
+
+.img {
+   margin-top: 20px;
+   width: 150px;
+   height: 150px;
+   border-radius: 50%;
+}
+
+.img-camera {
+   margin-bottom: 20px;
+}
+
+.camera {
+   font-size: 24px;
+   cursor: pointer;
+
+   &:hover {
+      color: #979696;
+   }
+}
+
+.fullname {
+   margin-bottom: 20px;
+}
+
+.input {
+   padding: 4px;
+   border-radius: 8px;
+}
+
+.upload {
+   display: none;
+}

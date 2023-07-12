@@ -1,0 +1,51 @@
+.wrapper {
+   background-color: #e9e7e7;
+   padding: 16px;
+}
+
+.name {
+   font-size: 24px;
+   font-weight: 550;
+   margin-left: 30px;
+}
+
+.name-type + .name-type {
+   margin-top: 30px;
+}
+
+.name-type {
+}
+
+.list-item {
+   display: flex;
+   text-align: center;
+   flex-wrap: wrap;
+   margin-left: 40px;
+}
+
+.name-coffee {
+   max-width: 100px;
+   min-height: 50px;
+   font-size: 20px;
+}
+
+.item {
+   text-align: center;
+   margin-right: 30px;
+   margin-bottom: 20px;
+   border: 1px solid #ccc;
+   padding: 20px;
+   border-radius: 8px;
+   cursor: pointer;
+   background-color: #d8d4d4;
+
+   &:hover {
+      opacity: 0.7;
+   }
+}
+
+.img {
+   width: 100px;
+   height: 100px;
+   border-radius: 4px;
+}

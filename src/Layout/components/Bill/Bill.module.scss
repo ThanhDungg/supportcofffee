@@ -1,0 +1,66 @@
+@keyframes rightToLeft {
+   0% {
+      opacity: 0.5;
+      right: 0;
+      top: 20px;
+      bottom: 200px;
+      left: 100%;
+   }
+   100% {
+      opacity: 1;
+      top: 20px;
+      right: 10px;
+      left: 75%;
+      bottom: 200px;
+   }
+}
+
+@mixin show() {
+   animation: 0.5s rightToLeft ease;
+}
+
+.wrapper {
+   position: fixed;
+   background-color: rgb(248, 249, 249);
+   top: 20px;
+   right: 10px;
+   left: 75%;
+   bottom: 200px;
+   border-radius: 16px;
+   box-shadow: 0px 0px 5px 5px #ccc;
+   @include show();
+}
+
+.iconPrev {
+   position: fixed;
+   background-color: rgb(242, 160, 54);
+   color: #fff;
+   top: 150px;
+   right: 10px;
+   font-size: 40px;
+   padding: 8px;
+   border-radius: 8px;
+   cursor: pointer;
+
+   &:hover {
+      opacity: 0.7;
+   }
+}
+
+.header {
+   text-align: center;
+   font-size: 24px;
+   padding-top: 12px;
+   padding-bottom: 8px;
+   border-bottom: 1px #ccc solid;
+}
+
+.listCoffee {
+   overflow-y: scroll;
+   height: 420px;
+   scrollbar-width: auto;
+}
+
+.buy {
+   margin-top: 10px;
+}

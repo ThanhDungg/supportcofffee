@@ -1,0 +1,40 @@
+@keyframes show {
+   0% {
+      opacity: 0;
+   }
+   100% {
+      opacity: 1;
+   }
+}
+
+@mixin showTable() {
+   animation: 0.5s show ease;
+}
+
+.wrapper {
+   position: fixed;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 30%;
+   background-color: rgba(0, 0, 0, 0.3);
+   display: flex;
+   margin: auto;
+
+   @include showTable();
+}
+
+.Close {
+   background-color: #ccc;
+}
+
+.table {
+   display: flex;
+   border-radius: 8px;
+   flex-wrap: wrap;
+   width: 90%;
+   height: 80%;
+   background-color: rgba(0, 0, 0, 0.5);
+   margin: auto;
+   overflow-y: scroll;
+}
