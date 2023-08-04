@@ -8,21 +8,37 @@ import Coffee from '../../Layout/components/Coffee';
 import { useNavigate } from 'react-router-dom';
 import Bill from '../../Layout/components/Bill';
 import TableHome from '../../Layout/components/TableHome';
+import Loading from '../../Layout/components/Loading';
 
 function HomePage() {
    const navigate = useNavigate();
 
+   const temp = {
+      id: '',
+      Name_Coffee: '',
+      img: '',
+      price: '',
+      id_Type: '',
+      listsize: [
+         { id_size: '', name_size: '', price: '' },
+         { id_size: '', name_size: '', price: '' },
+         { id_size: '', name_size: '', price: '' },
+      ],
+   };
+
+   const [price, setPrice] = useState(0);
+
    const [renderLogin, setRenderLogin] = useState(false);
    const [renderForgot, setRenderForgot] = useState(false);
-   const [isLogin, setIsLogin] = useState(false);
    const [coffee, setCoffee] = useState(false);
    const [table, setTable] = useState(false);
-   const [show, setShow] = useState(false);
+   const [isLoading, setIsLoading] = useState(false);
 
-   const [item, setItem] = useState();
-   const [type, setType] = useState('');
+   const [item, setItem] = useState(temp);
+
    const [quantityCoffee, setQuantityCoffee] = useState(1);
-   const [quantityBill, setQuantityBill] = useState(1);
+
+   const [listCheckTopping, setListCheckTopping] = useState([]);
 
    const [listCoffeeBill, setListCoffeeBill] = useState([]);
 
@@ -46,140 +62,217 @@ function HomePage() {
          id: 1,
          Name_Coffee: 'Capochino',
          img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         price: 50000,
          id_Type: 1,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
          id: 2,
          Name_Coffee: 'Cà phê sữa',
          img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         price: 20000,
+
          id_Type: 1,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
          id: 3,
          Name_Coffee: 'Cà phê đen đá',
          img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         price: 20000,
+
          id_Type: 1,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
          id: 4,
          Name_Coffee: 'Sinh tố bơ',
          img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         price: 20000,
          id_Type: 2,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
          id: 5,
          Name_Coffee: 'Sinh tố xoài',
          img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         price: 20000,
          id_Type: 2,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
          id: 6,
          Name_Coffee: 'Trà sữa trân châu đường đen',
          img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
          id: 7,
          Name_Coffee: 'Trà sữa matcha',
          img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
          id: 8,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 9,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 10,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 11,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 12,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 13,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 14,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 15,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 16,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 17,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 18,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
       {
-         id: 8,
+         id: 19,
          Name_Coffee: 'Trà sữa việt quốc',
          img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         price: 20000,
          id_Type: 3,
+         listsize: [
+            { id_size: 1, name_size: 'Size M', price: 15000 },
+            { id_size: 2, name_size: 'Size S', price: 20000 },
+            { id_size: 3, name_size: 'Size L', price: 25000 },
+         ],
       },
    ];
 
    const listTable = [
       { id: 1, Name: 'Ban 1', Status: 1 },
-
       { id: 2, Name: 'Ban 2', Status: 1 },
       { id: 3, Name: 'Ban 3', Status: 0 },
       { id: 4, Name: 'Ban 4', Status: 0 },
@@ -190,10 +283,10 @@ function HomePage() {
       { id: 9, Name: 'Ban 5', Status: 1 },
       { id: 10, Name: 'Ban 6', Status: 1 },
       { id: 11, Name: 'Ban 7', Status: 1 },
-      { id: 8, Name: 'Ban 4', Status: 0 },
-      { id: 9, Name: 'Ban 5', Status: 1 },
-      { id: 10, Name: 'Ban 6', Status: 1 },
-      { id: 11, Name: 'Ban 7', Status: 1 },
+      { id: 12, Name: 'Ban 4', Status: 0 },
+      { id: 13, Name: 'Ban 5', Status: 1 },
+      { id: 14, Name: 'Ban 6', Status: 1 },
+      { id: 15, Name: 'Ban 7', Status: 1 },
    ];
 
    //login
@@ -228,7 +321,8 @@ function HomePage() {
 
    //click login
    const user = [
-      { id: 1, taikhoan: 'user1', matkhau: '123', role: 1 },
+      { id: 0, taikhoan: 'admin', matkhau: '123', role: 0 },
+      { id: 1, taikhoan: 'user', matkhau: '123', role: 1 },
       { id: 2, taikhoan: 'bartender', matkhau: '123', role: 2 },
    ];
    const [taikhoan, setTaikhoan] = useState('');
@@ -243,28 +337,21 @@ function HomePage() {
       console.log(e.target.value);
    };
 
+   //Login
    const handleLogin = () => {
-      user.map(async (u) => {
-         if (u.taikhoan === taikhoan && u.matkhau === matkhau) {
-            await localStorage.setItem('isLogin', u.role);
-            await localStorage.setItem('idUser', u.id);
-            await setIsLogin(true);
-            await setRenderLogin(false);
-            navigate('/');
-            // if (localStorage.getItem('isLogin') == 1) {
-            // } else if (localStorage.getItem('isLogin') == 2) {
-            //    navigate('/bartender');
-            // }
-         }
-      });
-   };
-
-   //Logout
-   const handleLogout = async () => {
-      await localStorage.removeItem('isLogin');
-      await localStorage.removeItem('idUser');
-      setIsLogin(false);
-      await window.location.reload();
+      setIsLoading(true);
+      setTimeout(() => {
+         user.map(async (u) => {
+            if (u.taikhoan === taikhoan && u.matkhau === matkhau) {
+               await localStorage.setItem('isLogin', 1);
+               await localStorage.setItem('idUser', u.id);
+               await localStorage.setItem('idRole', u.role);
+               await setRenderLogin(false);
+               navigate('/');
+            }
+         });
+         setIsLoading(false);
+      }, 1000);
    };
 
    //Xem chi tiết coffee để mua
@@ -274,11 +361,6 @@ function HomePage() {
       listCoffee.map((item) => {
          if (item.id == id) {
             setItem(item);
-            listType.map((ty) => {
-               if (item.id_Type == ty.id) {
-                  setType(ty.Name_Type);
-               }
-            });
          }
       });
    };
@@ -289,16 +371,36 @@ function HomePage() {
    };
 
    //Thêm 1 sản phẩm vào bill thanh toán
-   const handleBuy = (id) => {
+   const handleBuy = async (id, quantity) => {
       if (localStorage.getItem('isLogin')) {
-         setCoffee(false);
-         listCoffee.map((item) => {
-            if (item.id == id) {
-               setListCoffeeBill((list) => [...list, item]);
-               setQuantityBill(quantityCoffee);
-               setQuantityCoffee(1);
+         let tempCheckTopping = document.getElementById('list-topping');
+         await setListCheckTopping([]);
+
+         for (let i = 0; i < tempCheckTopping.childElementCount; i++) {
+            if (tempCheckTopping.childNodes[i].childNodes[0].checked) {
+               // await setListCheckTopping((tp) => [...tp, tempCheckTopping.childNodes[i].childNodes[0].value]);
+               await listCheckTopping.push(tempCheckTopping.childNodes[i].childNodes[0].value);
             }
-         });
+         }
+
+         let tempCheckSize = document.querySelectorAll('[name = "check"]');
+         for (let i = 0; i < tempCheckSize.length; i++) {
+            if (tempCheckSize[i].checked) {
+               listCoffee.map(async (item) => {
+                  if (item.id == id) {
+                     item['size'] = tempCheckSize[i].getAttribute('id');
+                     item['quantity'] = quantity;
+                     item['listCheckedTP'] = listCheckTopping;
+                     item['price'] = price;
+                     await setListCoffeeBill((list) => [...list, item]);
+                     setQuantityCoffee(1);
+                  }
+               });
+
+               break;
+            }
+         }
+         await setCoffee(false);
       } else {
          setCoffee(false);
          setRenderLogin(true);
@@ -310,7 +412,6 @@ function HomePage() {
       let newCoffee = listCoffeeBill.map((item) => item.id).indexOf(coffe.id);
       await listCoffeeBill.splice(newCoffee, 1);
       await setListCoffeeBill((list) => [...list]);
-      await console.log(listCoffeeBill);
    };
 
    //Hiện bản chọn bàn
@@ -328,16 +429,6 @@ function HomePage() {
       setListCoffeeBill([]);
    };
 
-   //thêm coffee trong bill
-   const handleAdd = () => {
-      setQuantityBill(quantityBill + 1);
-   };
-
-   //Giảm coffee trong bill
-   const handleAbs = () => {
-      quantityBill <= 1 ? setQuantityBill(quantityBill) : setQuantityBill(quantityBill - 1);
-   };
-
    //Thêm coffee trong form Coffe
    const handleAddCoffee = () => {
       setQuantityCoffee(quantityCoffee + 1);
@@ -348,33 +439,29 @@ function HomePage() {
       quantityCoffee <= 1 ? setQuantityCoffee(quantityCoffee) : setQuantityCoffee(quantityCoffee - 1);
    };
 
-   const handleMouseOver = () => {
-      setShow(true);
-   };
+   const chooseTbl = async () => {
+      if (!window.confirm('Ban muon chon ban nay?')) {
+         return;
+      }
+      //call API
 
-   const handleMouseOut = () => {
-      setShow(false);
+      window.location.reload();
    };
 
    return (
       <div>
-         <Header
-            clickLogin={clickLogin}
-            isLogin={localStorage.getItem('isLogin')}
-            clickLogout={handleLogout}
-            show={show}
-            setShow={setShow}
-         />
+         <Header clickLogin={clickLogin} isLogin={localStorage.getItem('isLogin')} />
          <Body clickStatus={clickStatus} listCoffee={listCoffee} listType={listType} />
          {coffee && (
             <Coffee
                coffee={item}
                handleClose={handleClose}
-               type={type}
                handleBuy={handleBuy}
                handleAbsCoffee={handleAbsCoffee}
                handleAddCoffee={handleAddCoffee}
                quantityCoffee={quantityCoffee}
+               price={price}
+               setPrice={setPrice}
             />
          )}
          <Bill
@@ -382,9 +469,8 @@ function HomePage() {
             handleClose={handleCloseCoffeBill}
             handleTable={handleTable}
             handleCancel={handleCancelBill}
-            quantity={quantityBill}
          />
-         {table && <TableHome listTable={listTable} handleClose={tableClose} />}
+         {table && <TableHome listTable={listTable} handleClose={tableClose} chooseTbl={chooseTbl} />}
          {renderLogin && (
             <Login
                clickClose={clickCloseLogin}
@@ -394,8 +480,10 @@ function HomePage() {
                changeMatKhau={changeMatKhau}
             />
          )}
+
          {renderForgot && <ForgotPassWord clickClose={clickCloseForgot} changePassword={changePassword} />}
          <Footer />
+         {isLoading && <Loading />}
       </div>
    );
 }

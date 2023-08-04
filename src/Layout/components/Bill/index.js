@@ -9,8 +9,16 @@ import Button from '../../../components/Button';
 
 const cx = classNames.bind(styles);
 
-function Bill({ listCoffee, handleClose, handleTable, handleCancel, handleAdd, handleAbs, quantity }) {
+function Bill({ listCoffee, handleClose, handleTable, handleCancel }) {
    const [hidden, setHidden] = useState(true);
+   const [total, setTotal] = useState(0);
+
+   useEffect(() => {
+      setTotal(0);
+      listCoffee.map((item) => {
+         setTotal((tt) => tt + item.quantity * item.price);
+      });
+   }, [listCoffee.length]);
 
    return (
       <div>
@@ -33,9 +41,6 @@ function Bill({ listCoffee, handleClose, handleTable, handleCancel, handleAdd, h
                            handleClose={() => {
                               handleClose(item);
                            }}
-                           handleAdd={handleAdd}
-                           handleAbs={handleAbs}
-                           quantity={quantity}
                         />
                      );
                   })}
@@ -45,6 +50,9 @@ function Bill({ listCoffee, handleClose, handleTable, handleCancel, handleAdd, h
                      setHidden(true);
                   }}
                />
+               <div className={cx('total')}>
+                  Tổng tiền: <i>{total.toLocaleString()} vnd</i>
+               </div>
                <div className={cx('buy')}>
                   <Button title="Chọn bàn" click={handleTable} />
                   <Button title="Hủy" click={handleCancel} />

@@ -1,7 +1,10 @@
 import BartenderPage from '../pages/BartenderPage';
 import ErrorPage from '../pages/ErrorPage';
 import HomePage from '../pages/HomePage';
+import HomeUserPage from '../pages/HomeUserPage';
 import ProfilePage from '../pages/ProfilePage';
+import PromotionPage from '../pages/PromotionPage';
+import StaffManagerPage from '../pages/StaffManagerPage';
 import TablePage from '../pages/TablePage';
 
 const publicsRoutes = [
@@ -9,6 +12,9 @@ const publicsRoutes = [
    { path: '/bartender', component: BartenderPage, Layout: BartenderPage },
    { path: '/table', component: TablePage, Layout: TablePage },
    { path: '/profile/:id', component: ProfilePage, Layout: ProfilePage },
+   { path: '/managerstaff', component: StaffManagerPage, Layout: StaffManagerPage },
+   { path: '/promotion', component: PromotionPage, Layout: PromotionPage },
+   { path: '/user', component: HomeUserPage, Layout: HomeUserPage },
    { path: '*', component: ErrorPage, Layout: ErrorPage },
 ];
 

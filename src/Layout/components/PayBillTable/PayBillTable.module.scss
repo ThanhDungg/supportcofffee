@@ -1,0 +1,56 @@
+.wrapper {
+   position: fixed;
+   top: 5%;
+   bottom: 5%;
+   left: 35%;
+   right: 35%;
+   background-color: #fff;
+   text-align: center;
+   box-shadow: 0px 0px 3px 3px #ccc;
+   border-radius: 8px;
+}
+
+.body {
+   top: 5%;
+   bottom: 5%;
+   left: 35%;
+   right: 35%;
+}
+
+.paybill-body {
+   margin: 20px 20px;
+   background-color: #ccc;
+   height: 85%;
+}
+
+.paybill-title {
+   font-size: 24px;
+   font-weight: 600;
+}
+
+.bill-content {
+   text-align: start;
+   margin-left: 20px;
+   margin-top: 10px;
+}
+
+.coffee {
+   background-color: #fff;
+   height: 330px;
+   overflow-y: scroll;
+   margin-right: 20px;
+   margin-top: 10px;
+   padding: 8px;
+}
+
+.spanten {
+   margin-right: 80px;
+}
+.span + .span {
+   margin-left: 40px;
+}
+
+.sum {
+   text-align: end;
+   margin-right: 20px;
+}

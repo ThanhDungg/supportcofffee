@@ -6,7 +6,17 @@ import { useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Table({ tableName, status, children2, isTablePage = false, showChangeTable }) {
+function Table({
+   tableName,
+   status,
+   children2,
+   isTablePage = false,
+   showChangeTable,
+   showPayBill,
+   setShowPayBill,
+   showTablePairing,
+   chooseTbl,
+}) {
    const [choose, setChoose] = useState(true);
    const [choose2, setChoose2] = useState(true);
 
@@ -26,6 +36,10 @@ function Table({ tableName, status, children2, isTablePage = false, showChangeTa
       setChoose(true);
    };
 
+   const handleShowPayBill = () => {
+      setShowPayBill(true);
+   };
+
    return status ? (
       <div className={!isTablePage ? cx('full-table') : cx('full-tablepage')}>
          {!isTablePage ? (
@@ -42,7 +56,9 @@ function Table({ tableName, status, children2, isTablePage = false, showChangeTa
                   </div>
                ) : (
                   <div>
-                     <button className={cx('btn-paytbale')}>Thanh toán</button>
+                     <button className={cx('btn-paytbale')} onClick={handleShowPayBill}>
+                        Thanh toán
+                     </button>
                      <br />
                      <button className={cx('btn-choosetable')} onClick={showChangeTable}>
                         Đổi bàn
@@ -68,7 +84,9 @@ function Table({ tableName, status, children2, isTablePage = false, showChangeTa
             <div className={cx('btn-place')}>
                {!isTablePage ? (
                   <div>
-                     <button className={cx('btn-choose')}>Chọn</button>
+                     <button className={cx('btn-choose')} onClick={chooseTbl}>
+                        Chọn
+                     </button>
                      <br />
                      <button className={cx('btn-cancel')} onClick={handleCancelTableEmpty}>
                         Hủy
@@ -76,7 +94,9 @@ function Table({ tableName, status, children2, isTablePage = false, showChangeTa
                   </div>
                ) : (
                   <div>
-                     <button className={cx('btn-choose')}>Ghép bàn</button>
+                     <button className={cx('btn-choose')} onClick={showTablePairing}>
+                        Ghép bàn
+                     </button>
                      <br />
                      <button className={cx('btn-cancel')} onClick={handleCancelTableEmpty}>
                         Hủy

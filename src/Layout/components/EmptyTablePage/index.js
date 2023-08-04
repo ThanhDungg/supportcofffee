@@ -5,13 +5,13 @@ import Close from '../../../components/Close';
 
 const cx = classNames.bind(styles);
 
-function EmptyTablePage({ listTable, handleClose }) {
+function EmptyTablePage({ listTable, handleClose, status }) {
    return (
       <div className={cx('wrapper')}>
          <div className={cx('place-table')}>
             <Close hanldeClose={handleClose} />
             {listTable.map((tb) => {
-               if (tb.Status == 0) {
+               if (tb.Status == status) {
                   return <Table tableName={tb.Name} status={tb.Status} />;
                }
             })}

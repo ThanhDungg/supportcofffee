@@ -44,7 +44,7 @@ function Footer() {
    }, []);
 
    return (
-      <div className={cx('wrapper')}>
+      <div className={cx('wrapper')} id="contract">
          {isLoaded ? (
             <div className={cx('map')}>
                <GoogleMap

@@ -7,7 +7,7 @@ import Close from '../../../components/Close';
 
 const cx = classNames.bind(styles);
 
-function TableHome({ listTable, handleClose }) {
+function TableHome({ listTable, handleClose, chooseTbl }) {
    return (
       <div className={cx('wrapper')}>
          <div className={cx('Close')}>
@@ -15,7 +15,14 @@ function TableHome({ listTable, handleClose }) {
          </div>
          <div className={cx('table')}>
             {listTable.map((table) => {
-               return <Table tableName={table.Name} status={table.Status} children2={<ChooseTable />} />;
+               return (
+                  <Table
+                     tableName={table.Name}
+                     status={table.Status}
+                     chooseTbl={chooseTbl}
+                     children2={<ChooseTable />}
+                  />
+               );
             })}
          </div>
       </div>

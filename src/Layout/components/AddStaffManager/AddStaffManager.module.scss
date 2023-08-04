@@ -1,0 +1,55 @@
+.wrapper {
+   position: fixed;
+   top: 0;
+   bottom: 0;
+   right: 0;
+   left: 0;
+   background: rgba(0, 0, 0, 0.3);
+}
+
+.body-add-staff {
+   text-align: center;
+   width: 30%;
+   height: 72%;
+   background-color: #fff;
+   margin-left: 35%;
+   margin-top: 5%;
+   border-radius: 8px;
+}
+
+.form-add-staff {
+   padding: 30px 50px 0px 50px;
+}
+
+.title-form-add-staff {
+   font-size: 24px;
+   font-weight: 600;
+}
+
+.body-form-add-staff {
+   margin-top: 20px;
+   padding: 20px;
+   border-radius: 8px;
+   background-color: #ccc;
+}
+
+.input-date {
+   width: 70%;
+   padding: 4px;
+   border-radius: 8px;
+}
+
+.select-role {
+   margin-top: 10px;
+}
+
+.select-tag {
+   width: 70%;
+   padding: 4px;
+   border-radius: 8px;
+}
+
+.btns {
+   margin-top: 20px;
+   margin-right: 30px;
+}

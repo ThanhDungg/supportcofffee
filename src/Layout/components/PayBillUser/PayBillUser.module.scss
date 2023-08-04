@@ -1,0 +1,93 @@
+@keyframes rightToLeft {
+   0% {
+      opacity: 0.5;
+      right: 0;
+      top: 20px;
+      bottom: 20px;
+      left: 100%;
+   }
+   100% {
+      opacity: 1;
+      top: 20px;
+      right: 10px;
+      left: 20%;
+      bottom: 20px;
+   }
+}
+
+@mixin show() {
+   animation: 0.5s rightToLeft ease;
+}
+
+.iconPrev {
+   position: fixed;
+   background-color: rgb(140, 226, 103);
+   color: #fff;
+   top: 300px;
+   right: 10px;
+   font-size: 40px;
+   padding: 8px;
+   border-radius: 8px;
+   cursor: pointer;
+
+   &:hover {
+      opacity: 0.7;
+   }
+}
+
+.wrapper {
+   position: fixed;
+   top: 0%;
+   bottom: 0%;
+   left: 0%;
+   right: 0%;
+   background-color: #fff;
+   text-align: center;
+   box-shadow: 0px 0px 3px 3px #ccc;
+   border-radius: 8px;
+}
+
+.body {
+   top: 5%;
+   bottom: 5%;
+   left: 35%;
+   right: 35%;
+}
+
+.paybill-body {
+   margin: 20px 20px;
+   background-color: #ccc;
+   height: 85%;
+}
+
+.paybill-title {
+   font-size: 24px;
+   font-weight: 600;
+}
+
+.bill-content {
+   text-align: start;
+   margin-left: 20px;
+   margin-top: 10px;
+}
+
+.coffee {
+   background-color: #fff;
+   height: 250px;
+   overflow-y: scroll;
+   margin-right: 20px;
+   margin-top: 10px;
+   padding: 8px;
+}
+
+.spanten {
+   margin-right: 40px;
+}
+.span + .span {
+   margin-left: 60px;
+}
+
+.sum {
+   text-align: end;
+   margin-right: 20px;
+}

@@ -3,6 +3,7 @@ import Footer from '../../Layout/Footer';
 import Header from '../../Layout/Header';
 import EmptyTablePage from '../../Layout/components/EmptyTablePage';
 import TableBody from '../../Layout/components/TableBody';
+import PayBillTable from '../../Layout/components/PayBillTable';
 
 function TablePage() {
    const listTable = [
@@ -24,6 +25,9 @@ function TablePage() {
    ];
 
    const [showChangeTable, setShowChangeTable] = useState(false);
+   const [showtablePairing, setShowtablePairing] = useState(false);
+   const [showPayBill, setShowPayBill] = useState(false);
+   const [show, setShow] = useState(false);
 
    const changeTable = () => {
       setShowChangeTable(true);
@@ -32,11 +36,27 @@ function TablePage() {
    const handleClose = () => {
       setShowChangeTable(false);
    };
+
+   const handleShowTablePairing = () => {
+      setShowtablePairing(true);
+   };
+
+   const handleCloseTablePairing = () => {
+      setShowtablePairing(false);
+   };
+
    return (
       <div>
-         <Header />
-         <TableBody listTable={listTable} showChangeTable={changeTable} />
-         {showChangeTable && <EmptyTablePage listTable={listTable} handleClose={handleClose} />}
+         <Header show={show} setShow={setShow} />
+         <TableBody
+            listTable={listTable}
+            showChangeTable={changeTable}
+            setShowPayBill={setShowPayBill}
+            showTablePairing={handleShowTablePairing}
+         />
+         {showChangeTable && <EmptyTablePage listTable={listTable} handleClose={handleClose} status={0} />}
+         {showtablePairing && <EmptyTablePage listTable={listTable} handleClose={handleCloseTablePairing} status={1} />}
+         {showPayBill && <PayBillTable setShowPayBill={setShowPayBill} showPayBill={showPayBill} />}
          <Footer />
       </div>
    );

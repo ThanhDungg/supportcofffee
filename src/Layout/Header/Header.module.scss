@@ -10,7 +10,7 @@
 .logo {
    text-decoration: none;
    margin-left: 10%;
-   margin-right: 30%;
+   margin-right: 25%;
    font-weight: 600;
    font-size: 28px;
    cursor: pointer;
@@ -18,6 +18,10 @@
    &:hover {
       color: #1b5fde;
    }
+}
+
+.sidebar-children {
+   text-decoration: none;
 }
 
 .title-logo {
@@ -32,12 +36,15 @@
    display: flex;
    text-align: center;
    align-items: center;
+   text-decoration: none;
 }
 
 .row-sidebar {
    font-size: 20px;
    font-weight: 550;
    cursor: pointer;
+   color: #000;
+   text-decoration: none;
 
    &:hover {
       color: #415d91;
@@ -101,6 +108,7 @@
 
 .profile-logout {
    position: absolute;
+   z-index: 1;
    top: 82px;
 }
 

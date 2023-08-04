@@ -1,3 +1,16 @@
+@keyframes show {
+   0% {
+      opacity: 0.5;
+   }
+   100% {
+      opacity: 1;
+   }
+}
+
+@mixin showTable() {
+   animation: 0.5s show ease;
+}
+
 .wrapper {
    position: fixed;
    top: 50px;
@@ -5,6 +18,8 @@
    right: 100px;
    left: 100px;
    background: rgba(0, 0, 0, 0.3);
+
+   @include showTable();
 }
 
 .place-table {

@@ -7,7 +7,7 @@ const cx = classNames.bind(styles);
 
 function Menu({ listCoffee, listType, clickStatus }) {
    return (
-      <div className={cx('wrapper')}>
+      <div className={cx('wrapper')} id="menu">
          {listType.map((item) => {
             return (
                <div className={cx('name-type')}>
@@ -22,7 +22,7 @@ function Menu({ listCoffee, listType, clickStatus }) {
                                  }}
                                  Name_Coffee={temp.Name_Coffee}
                                  img={temp.img}
-                                 price={temp.price}
+                                 price={temp.listsize[0].price}
                               />
                            );
                         }

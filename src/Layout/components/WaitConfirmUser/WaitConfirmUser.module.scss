@@ -1,0 +1,47 @@
+.wrapper {
+   position: fixed;
+   top: 0;
+   bottom: 0;
+   left: 0;
+   right: 0;
+   background: rgba(0, 0, 0, 0.3);
+   text-align: center;
+}
+
+.wait-title {
+   margin-top: 30%;
+   color: #fff;
+   font-weight: 600;
+   font-size: 24px;
+}
+
+@keyframes rotate {
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+}
+
+.icon {
+   margin-top: 20px;
+   margin-bottom: 20px;
+   font-size: 30px;
+   color: #86e289;
+   animation: 2s rotate ease infinite;
+}
+
+.btn {
+   padding: 8px 16px;
+   border: none;
+   border-radius: 8px;
+   background-color: #ccc;
+}
+
+.btn2 {
+   padding: 8px 16px;
+   border: none;
+   border-radius: 8px;
+   background-color: #fff;
+}

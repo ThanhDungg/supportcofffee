@@ -1,8 +1,18 @@
-function Radio({ title, handleChange, ischecked, name, id }) {
+function Radio({ title, handleChange, ischecked, name, id, value, onClick, price }) {
    return (
       <div>
-         <input id={id} type="radio" onChange={handleChange} defaultChecked={ischecked} name={name} />
-         <label for={id}>{title}</label>
+         <input
+            id={id}
+            type="radio"
+            onChange={handleChange}
+            defaultChecked={ischecked}
+            name={name}
+            value={value}
+            onClick={onClick}
+         />
+         <label for={id}>
+            {title} - {price}vnd
+         </label>
       </div>
    );
 }

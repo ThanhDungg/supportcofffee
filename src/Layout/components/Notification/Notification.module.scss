@@ -1,0 +1,50 @@
+@keyframes show {
+   0% {
+      top: -20%;
+   }
+   40% {
+      top: 10%;
+   }
+   60% {
+      top: 10%;
+   }
+   100% {
+      top: -20%;
+   }
+}
+
+.wrapper {
+   position: absolute;
+   width: 20%;
+   left: 40%;
+   top: 10%;
+   text-align: center;
+   height: 10%;
+   box-shadow: 0px 0px 3px 3px #8d8c8c;
+   background-color: #fff;
+   border-radius: 16px;
+
+   animation: 4s show ease;
+}
+
+.noti-title-success,
+.noti-title-fail {
+   border-top-left-radius: 16px;
+   border-top-right-radius: 16px;
+   height: 40%;
+   font-size: 24px;
+   font-weight: 600;
+}
+
+.noti-title-success {
+   background-color: #3be238;
+}
+
+.noti-title-fail {
+   background-color: #f24444;
+}
+
+.noti {
+   margin-top: 12px;
+   font-size: 20px;
+}
