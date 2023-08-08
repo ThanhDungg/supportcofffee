@@ -11,11 +11,11 @@ function CoffeeUser({ coffee, handleStatusCoffee }) {
             handleStatusCoffee(coffee.id);
          }}
       >
-         <div className={cx('name-coffee')}>{coffee.Name_Coffee}</div>
+         <div className={cx('name-coffee')}>{coffee.name_coffee}</div>
          <div className={cx('img-coffee')}>
             <img className={cx('img')} src={coffee.img} />
          </div>
-         <div className={cx('price')}>{coffee.listsize[0].price.toLocaleString()}VND</div>
+         <div className={cx('price')}>{parseInt(coffee.size_details[0].price).toLocaleString()}VND</div>
       </div>
    );
 }

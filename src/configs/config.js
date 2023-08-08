@@ -1,4 +1,6 @@
-export const login_Url = `api/login`;
+export const menu_url = `api/menu`;
+export const login_Url = `api/staff/login`;
+export const addStaff_Url = `api/staff/login`;
 
 export const HIGHLAND_BACKGROUND_1 = 'https://www.highlandscoffee.com.vn/vnt_upload/product/04_2018/menu-PSD-bg.jpg';
 export const HIGHLAND_BACKGROUND_2 = 'https://www.highlandscoffee.com.vn/vnt_upload/product/04_2018/menu-FREEZE.jpg';

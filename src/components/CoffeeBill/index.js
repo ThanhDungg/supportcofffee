@@ -11,7 +11,7 @@ function CoffeeBill({ item, handleClose }) {
    const [price, setPrice] = useState(0);
 
    useEffect(() => {
-      item.listsize.map((li) => {
+      item.size_details.map((li) => {
          if (parseInt(li.id_size) === parseInt(item.size)) {
             setPrice(li.price);
          }
@@ -45,13 +45,13 @@ function CoffeeBill({ item, handleClose }) {
          </div>
          <div className={cx('name')}>
             <div>
-               <b>{item.Name_Coffee}</b>
+               <b>{item.name_coffee}</b>
             </div>
-            {item.listsize.map((size) => {
+            {item.size_details.map((size) => {
                if (parseInt(size.id_size) === parseInt(item.size)) {
                   return (
                      <div>
-                        {size.name_size} - <i>{size.price.toLocaleString()}</i>vnd
+                        {size.size.name_size} - <i>{parseInt(size.price).toLocaleString()}</i>vnd
                      </div>
                   );
                }

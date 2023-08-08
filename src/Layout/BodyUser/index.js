@@ -36,15 +36,17 @@ function BodyUser({ listType, listCoffee, handleStatusCoffee }) {
             <div className={cx('place-item')}>
                <div className={cx('title-type')}>{nameType}</div>
                <div className={cx('place-coffee')}>
-                  {listCoffee.map((coffee) => {
-                     if (valueType == 0) {
-                        return <CoffeeUser coffee={coffee} handleStatusCoffee={handleStatusCoffee} />;
-                     } else {
-                        if (coffee.id_Type == valueType) {
-                           return <CoffeeUser coffee={coffee} handleStatusCoffee={handleStatusCoffee} />;
-                        }
-                     }
-                  })}
+                  {listCoffee.length != 0
+                     ? listCoffee.map((coffee) => {
+                          if (valueType == 0) {
+                             return <CoffeeUser coffee={coffee} handleStatusCoffee={handleStatusCoffee} />;
+                          } else {
+                             if (coffee.id_type == valueType) {
+                                return <CoffeeUser coffee={coffee} handleStatusCoffee={handleStatusCoffee} />;
+                             }
+                          }
+                       })
+                     : ''}
                </div>
             </div>
          </div>

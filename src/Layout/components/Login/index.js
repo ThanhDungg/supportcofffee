@@ -7,7 +7,7 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 
 const cx = classNames.bind(styles);
 
-function Login({ clickClose, forgotpass, handleLogin, changeTaiKhoan, changeMatKhau }) {
+function Login({ clickClose, forgotpass, handleLogin, changeTaiKhoan, changeMatKhau, errorText }) {
    return (
       <div className={cx('login-form')}>
          <div className={cx('wrapper')}>
@@ -19,6 +19,7 @@ function Login({ clickClose, forgotpass, handleLogin, changeTaiKhoan, changeMatK
             <span className={cx('login')}>
                <Input placeholder="Tai khoan" title="Tài khoản" change={changeTaiKhoan} />
                <Input placeholder="Mat khau" title="Mật Khẩu" change={changeMatKhau} isPassword={true} />
+               <div className={cx('error')}>{errorText}</div>
                <div>
                   <Button title="Đăng nhập" click={handleLogin} />
                </div>

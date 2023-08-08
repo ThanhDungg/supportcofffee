@@ -27,17 +27,23 @@ function CoffeePayBillUser({ item }) {
       <div className={cx('wrapper')}>
          <div className={cx('spanten')}>
             <span>
-               {item.Name_Coffee}{' '}
-               {item.listsize.map((i) => {
+               {item.name_coffee}{' '}
+               {item.size_details.map((i) => {
                   if (parseInt(item.size) == i.id_size) {
-                     tempStatusTopping = ' - ' + tempStatusTopping + i.name_size;
+                     tempStatusTopping =
+                        ' - ' +
+                        tempStatusTopping +
+                        i.size.name_size +
+                        ': ' +
+                        parseInt(i.price).toLocaleString() +
+                        'vnd';
                   }
                })}
                {item.listCheckedTP.map((check) => {
                   listTopping.map((topping) => {
                      if (topping.id == check) {
                         tempStatusTopping =
-                           tempStatusTopping + ' - ' + topping.name + ' - ' + topping.price.toLocaleString() + 'vnd, ';
+                           tempStatusTopping + ' - ' + topping.name + ': ' + topping.price.toLocaleString() + 'vnd, ';
                      }
                   });
                })}

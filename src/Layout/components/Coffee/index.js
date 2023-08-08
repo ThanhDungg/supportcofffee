@@ -62,19 +62,19 @@ function Coffee({ coffee, handleClose, handleBuy, handleAddCoffee, handleAbsCoff
                <Img className={cx('coffee-img')} src={coffee.img} />
             </div>
             <div className={cx('title')}>
-               <p className={cx('name-coffee')}>{coffee.Name_Coffee}</p>
+               <p className={cx('name-coffee')}>{coffee.name_coffee}</p>
                <div id="list-size">
-                  {coffee.listsize.map((size) => {
-                     if (size.id_size == coffee.listsize[coffee.listsize.length - 1].id_size) {
+                  {coffee.size_details.map((size) => {
+                     if (size.id_size == coffee.size_details[coffee.size_details.length - 1].id_size) {
                         return (
                            <Radio
                               id={size.id_size}
                               name={'check'}
-                              title={size.name_size}
+                              title={size.size.name_size}
                               ischecked={true}
-                              value={size.price}
+                              value={parseInt(size.price)}
                               onClick={handleSetState}
-                              price={size.price.toLocaleString()}
+                              price={parseInt(size.price).toLocaleString()}
                            />
                         );
                      }
@@ -82,11 +82,11 @@ function Coffee({ coffee, handleClose, handleBuy, handleAddCoffee, handleAbsCoff
                         <Radio
                            id={size.id_size}
                            name={'check'}
-                           title={size.name_size}
+                           title={size.size.name_size}
                            ischecked={false}
-                           value={size.price}
+                           value={parseInt(size.price)}
                            onClick={handleSetState}
-                           price={size.price.toLocaleString()}
+                           price={parseInt(size.price).toLocaleString()}
                         />
                      );
                   })}

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Body from '../../Layout/Body';
 import Footer from '../../Layout/Footer';
 import Header from '../../Layout/Header';
@@ -9,9 +9,14 @@ import { useNavigate } from 'react-router-dom';
 import Bill from '../../Layout/components/Bill';
 import TableHome from '../../Layout/components/TableHome';
 import Loading from '../../Layout/components/Loading';
+import { getData, postData } from '../../configs/fetchData';
+import { login_Url, menu_url } from '../../configs/config';
+import axios from 'axios';
+import { SocketContext } from '../../App';
 
 function HomePage() {
    const navigate = useNavigate();
+   var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
    const temp = {
       id: '',
@@ -41,6 +46,15 @@ function HomePage() {
    const [listCheckTopping, setListCheckTopping] = useState([]);
 
    const [listCoffeeBill, setListCoffeeBill] = useState([]);
+   const [listCoffee, setListCoffee] = useState([]);
+
+   useEffect(() => {
+      const fetchData = async () => {
+         const res = await getData(menu_url, '');
+         setListCoffee(res.data.result);
+      };
+      fetchData();
+   }, []);
 
    const listType = [
       {
@@ -57,219 +71,219 @@ function HomePage() {
       },
    ];
 
-   const listCoffee = [
-      {
-         id: 1,
-         Name_Coffee: 'Capochino',
-         img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         id_Type: 1,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 2,
-         Name_Coffee: 'Cà phê sữa',
-         img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
+   // const listCoffee = [
+   //    {
+   //       id: 1,
+   //       Name_Coffee: 'Capochino',
+   //       img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
+   //       id_Type: 1,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 2,
+   //       Name_Coffee: 'Cà phê sữa',
+   //       img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
 
-         id_Type: 1,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 3,
-         Name_Coffee: 'Cà phê đen đá',
-         img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
+   //       id_Type: 1,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 3,
+   //       Name_Coffee: 'Cà phê đen đá',
+   //       img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
 
-         id_Type: 1,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 4,
-         Name_Coffee: 'Sinh tố bơ',
-         img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         id_Type: 2,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 5,
-         Name_Coffee: 'Sinh tố xoài',
-         img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         id_Type: 2,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 6,
-         Name_Coffee: 'Trà sữa trân châu đường đen',
-         img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 7,
-         Name_Coffee: 'Trà sữa matcha',
-         img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 8,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 9,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 10,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 11,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 12,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 13,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 14,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 15,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 16,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 17,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 18,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-      {
-         id: 19,
-         Name_Coffee: 'Trà sữa việt quốc',
-         img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
-         id_Type: 3,
-         listsize: [
-            { id_size: 1, name_size: 'Size M', price: 15000 },
-            { id_size: 2, name_size: 'Size S', price: 20000 },
-            { id_size: 3, name_size: 'Size L', price: 25000 },
-         ],
-      },
-   ];
+   //       id_Type: 1,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 4,
+   //       Name_Coffee: 'Sinh tố bơ',
+   //       img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
+   //       id_Type: 2,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 5,
+   //       Name_Coffee: 'Sinh tố xoài',
+   //       img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
+   //       id_Type: 2,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 6,
+   //       Name_Coffee: 'Trà sữa trân châu đường đen',
+   //       img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 7,
+   //       Name_Coffee: 'Trà sữa matcha',
+   //       img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 8,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 9,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 10,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 11,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 12,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 13,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 14,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 15,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 16,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 17,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 18,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   //    {
+   //       id: 19,
+   //       Name_Coffee: 'Trà sữa việt quốc',
+   //       img: 'https://img.freepik.com/free-photo/fresh-coffee-steams-wooden-table-close-up-generative-ai_188544-8923.jpg',
+   //       id_Type: 3,
+   //       listsize: [
+   //          { id_size: 1, name_size: 'Size M', price: 15000 },
+   //          { id_size: 2, name_size: 'Size S', price: 20000 },
+   //          { id_size: 3, name_size: 'Size L', price: 25000 },
+   //       ],
+   //    },
+   // ];
 
    const listTable = [
       { id: 1, Name: 'Ban 1', Status: 1 },
@@ -327,31 +341,41 @@ function HomePage() {
    ];
    const [taikhoan, setTaikhoan] = useState('');
    const [matkhau, setMatkhau] = useState('');
+   const [errorMsg, setErrorMsg] = useState('');
 
    const changeTaiKhoan = (e) => {
       setTaikhoan(e.target.value);
+      setErrorMsg('');
    };
 
    const changeMatKhau = (e) => {
       setMatkhau(e.target.value);
-      console.log(e.target.value);
+      setErrorMsg('');
    };
 
+   const socket = useContext(SocketContext);
    //Login
-   const handleLogin = () => {
-      setIsLoading(true);
-      setTimeout(() => {
-         user.map(async (u) => {
-            if (u.taikhoan === taikhoan && u.matkhau === matkhau) {
-               await localStorage.setItem('isLogin', 1);
-               await localStorage.setItem('idUser', u.id);
-               await localStorage.setItem('idRole', u.role);
-               await setRenderLogin(false);
-               navigate('/');
-            }
-         });
-         setIsLoading(false);
-      }, 1000);
+   const handleLogin = async () => {
+      if (taikhoan == '') {
+         setErrorMsg('Bạn chưa nhập tài khoản');
+      } else if (!filter.test(taikhoan)) {
+         setErrorMsg('Email chưa đúng định dạng');
+      } else if (matkhau == '') {
+         setErrorMsg('Bạn chưa nhập mật khẩu');
+      } else {
+         setIsLoading(true);
+         const res = await postData(login_Url, { email: taikhoan, password: matkhau }, '');
+         if (res.data.data != undefined) {
+            setIsLoading(false);
+            localStorage.setItem('accessToken', res.data.data.accessToken);
+            localStorage.setItem('isLogin', 1);
+            setRenderLogin(false);
+            socket.emit('joinStaff', res.data.data.accessToken);
+         } else {
+            setErrorMsg(res.data.message);
+            setIsLoading(false);
+         }
+      }
    };
 
    //Xem chi tiết coffee để mua
@@ -478,6 +502,7 @@ function HomePage() {
                handleLogin={handleLogin}
                changeTaiKhoan={changeTaiKhoan}
                changeMatKhau={changeMatKhau}
+               errorText={errorMsg}
             />
          )}
 

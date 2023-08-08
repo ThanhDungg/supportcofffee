@@ -12,6 +12,7 @@ const cx = classNames.bind(styles);
 function BillUser({ listCoffee, handleClose, handleCancelBillUser, handleOrder }) {
    const [hidden, setHidden] = useState(true);
    const [total, setTotal] = useState(0);
+   console.log(listCoffee);
 
    useEffect(() => {
       setTotal(0);

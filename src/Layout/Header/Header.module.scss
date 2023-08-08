@@ -10,7 +10,7 @@
 .logo {
    text-decoration: none;
    margin-left: 10%;
-   margin-right: 25%;
+   margin-right: 30%;
    font-weight: 600;
    font-size: 28px;
    cursor: pointer;
@@ -102,6 +102,10 @@
    }
 }
 
+.icon-list-table {
+   margin-left: 30px;
+}
+
 .icon-cup {
    margin-right: 40px;
 }
@@ -128,4 +132,14 @@
 .profile-link {
    text-decoration: none;
    color: #000;
+}
+
+.noti-staff {
+   position: relative;
+}
+
+.thongbao {
+   position: absolute;
+   margin-left: 30px;
+   height: 400px;
 }

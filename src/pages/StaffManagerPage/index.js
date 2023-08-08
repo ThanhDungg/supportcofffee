@@ -108,6 +108,7 @@ function StaffManagerPage() {
             handleAddStaff={handleAddStaff}
             handleLockStaff={handleLockStaff}
             onClickContract={onClickContract}
+            listStaff={listStaff}
          />
          {showContract && <Contract hanldeClose={hanldeCloseContract} item={item} />}
          {showNoti && <Notification success={success} />}

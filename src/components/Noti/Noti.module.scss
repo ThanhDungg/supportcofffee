@@ -1,0 +1,44 @@
+.wrapper {
+   width: 250px;
+   background-color: #fff;
+   margin-top: 5px;
+   padding: 10px;
+}
+
+.wrapper + .wrapper {
+   margin-top: 2px;
+}
+
+.noti {
+   text-align: start;
+}
+
+.header-noti {
+   color: #ef7676;
+   margin-bottom: 4px;
+}
+
+.content-noti {
+   font-size: 20px;
+   margin-bottom: 4px;
+}
+
+.btn {
+   padding: 8px 12px;
+   border: none;
+   background-color: #ccc;
+
+   cursor: pointer;
+
+   &:hover {
+      background-color: rgb(142, 246, 246);
+   }
+}
+
+.btn + .btn {
+   margin-left: 8px;
+}
+
+.time {
+   margin-left: 20%;
+}

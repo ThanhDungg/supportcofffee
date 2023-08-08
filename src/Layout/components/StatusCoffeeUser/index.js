@@ -81,18 +81,18 @@ function StatusCoffeeUser({
                <img className={cx('img')} src={coffee.img} />
             </div>
             <div className={cx('place-info')}>
-               <div className={cx('nameCoffee')}>{coffee.Name_Coffee}</div>
+               <div className={cx('nameCoffee')}>{coffee.name_coffee}</div>
                <div className={cx('place-choose-size')} id="place-size">
-                  {coffee.listsize.map((size) => {
-                     if (coffee.listsize[coffee.listsize.length - 1]) {
+                  {coffee.size_details.map((size) => {
+                     if (coffee.size_details[coffee.size_details.length - 1]) {
                         return (
                            <Radio
                               name={'size'}
                               ischecked={true}
                               value={size.price}
                               id={size.id_size}
-                              title={size.name_size}
-                              price={size.price.toLocaleString()}
+                              title={size.size.name_size}
+                              price={parseInt(size.price).toLocaleString()}
                               onClick={handleChangeSize}
                            />
                         );
@@ -102,8 +102,8 @@ function StatusCoffeeUser({
                               name={'size'}
                               value={size.price}
                               id={size.id_size}
-                              title={size.name_size}
-                              price={size.price.toLocaleString()}
+                              title={size.size.name_size}
+                              price={parseInt(size.price).toLocaleString()}
                               onClick={handleChangeSize}
                            />
                         );
