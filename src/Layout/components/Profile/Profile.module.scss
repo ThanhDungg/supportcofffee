@@ -4,7 +4,7 @@
 
 .profile-body {
    display: flex;
-   margin-left: 20%;
+   margin-left: 25%;
    height: 80%;
    margin-top: 7%;
    width: 60%;
@@ -45,9 +45,39 @@
 
 .input {
    padding: 4px;
-   border-radius: 8px;
+   outline: none;
+   line-height: 1.5;
 }
 
 .upload {
    display: none;
+}
+
+.rigth-place {
+   margin-top: 50px;
+   margin-left: 50px;
+}
+.tr {
+   line-height: 50px;
+}
+
+.btns {
+   margin-left: auto;
+   margin-top: 20px;
+}
+
+.btn {
+   width: 100px;
+   line-height: 1.5;
+   padding: 8px 0;
+   margin-left: 20px;
+   border: none;
+   cursor: pointer;
+   background-color: rgb(0, 149, 246);
+   color: #fff;
+   font-weight: 600;
+
+   &:hover {
+      background-color: rgb(24, 119, 242);
+   }
 }

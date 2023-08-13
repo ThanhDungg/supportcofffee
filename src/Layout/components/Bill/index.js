@@ -6,10 +6,11 @@ import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import Close from '../../../components/Close';
 import CoffeeBill from '../../../components/CoffeeBill';
 import Button from '../../../components/Button';
+import CoffeeBillStaff from '../../../components/CoffeeBillStaff';
 
 const cx = classNames.bind(styles);
 
-function Bill({ listCoffee, handleClose, handleTable, handleCancel }) {
+function Bill({ listCoffee, handleClose, handleTable, handleCancel, listTopping }) {
    const [hidden, setHidden] = useState(true);
    const [total, setTotal] = useState(0);
 
@@ -36,11 +37,12 @@ function Bill({ listCoffee, handleClose, handleTable, handleCancel }) {
                <div className={cx('listCoffee')}>
                   {listCoffee.map((item) => {
                      return (
-                        <CoffeeBill
+                        <CoffeeBillStaff
                            item={item}
                            handleClose={() => {
                               handleClose(item);
                            }}
+                           listTopping={listTopping}
                         />
                      );
                   })}

@@ -6,13 +6,13 @@ import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function CoffeeBill({ item, handleClose, listTopping }) {
+function CoffeeBillStaff({ item, handleClose, listTopping }) {
    let tempMoney = 0;
    const [price, setPrice] = useState(0);
 
    useEffect(() => {
       item.size_details.map((li) => {
-         if (parseInt(li.id_size) === parseInt(item.id_size_details)) {
+         if (parseInt(li.id_size) === parseInt(item.size)) {
             setPrice(li.price);
          }
       });
@@ -30,7 +30,7 @@ function CoffeeBill({ item, handleClose, listTopping }) {
                <b>{item.name_coffee}</b>
             </div>
             {item.size_details.map((size) => {
-               if (parseInt(size.id_size) === parseInt(item.id_size_details)) {
+               if (parseInt(size.id_size) === parseInt(item.size)) {
                   return (
                      <div>
                         {size.size.name_size} - <i>{parseInt(size.price).toLocaleString()}</i>vnd
@@ -45,7 +45,7 @@ function CoffeeBill({ item, handleClose, listTopping }) {
                <b>Chi tiết:</b>
                {listTopping.map((tp) => {
                   item.listCheckedTP.map((checktp) => {
-                     if (parseInt(checktp.id_topping) == parseInt(tp.id)) {
+                     if (parseInt(checktp) == parseInt(tp.id)) {
                         statusTopping =
                            statusTopping + tp.name_topping + ' - ' + parseInt(tp.price).toLocaleString() + 'vnd' + ', ';
                         tempMoney = tempMoney + parseInt(tp.price);
@@ -65,4 +65,4 @@ function CoffeeBill({ item, handleClose, listTopping }) {
    );
 }
 
-export default CoffeeBill;
+export default CoffeeBillStaff;

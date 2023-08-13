@@ -10,8 +10,7 @@ import Bill from '../../Layout/components/Bill';
 import TableHome from '../../Layout/components/TableHome';
 import Loading from '../../Layout/components/Loading';
 import { getData, postData } from '../../configs/fetchData';
-import { login_Url, menu_url } from '../../configs/config';
-import axios from 'axios';
+import { getTopping, login_Url, menu_url } from '../../configs/config';
 import { SocketContext } from '../../App';
 
 function HomePage() {
@@ -48,10 +47,19 @@ function HomePage() {
    const [listCoffeeBill, setListCoffeeBill] = useState([]);
    const [listCoffee, setListCoffee] = useState([]);
 
+   const [listTopping, setListTopping] = useState([]);
+
    useEffect(() => {
       const fetchData = async () => {
-         const res = await getData(menu_url, '');
-         setListCoffee(res.data.result);
+         try {
+            const res = await getData(menu_url, '');
+            setListCoffee(res.data.result);
+
+            const res1 = await getData(getTopping, '');
+            setListTopping(res1.data.result);
+         } catch (e) {
+            console.log(e);
+         }
       };
       fetchData();
    }, []);
@@ -343,6 +351,7 @@ function HomePage() {
    const [matkhau, setMatkhau] = useState('');
    const [errorMsg, setErrorMsg] = useState('');
 
+   let tempItem = new Object();
    const changeTaiKhoan = (e) => {
       setTaikhoan(e.target.value);
       setErrorMsg('');
@@ -369,8 +378,14 @@ function HomePage() {
             setIsLoading(false);
             localStorage.setItem('accessToken', res.data.data.accessToken);
             localStorage.setItem('isLogin', 1);
+            localStorage.setItem('idRole', res.data.data.staffDetail.id_role);
             setRenderLogin(false);
-            socket.emit('joinStaff', res.data.data.accessToken);
+            if (res.data.data.staffDetail.id_role == 2) {
+               socket.emit('joinStaff', res.data.data.accessToken);
+            } else if (res.data.data.staffDetail.id_role == 1) {
+               socket.emit('joinBartender', res.data.data.accessToken);
+               navigate('/bartender');
+            }
          } else {
             setErrorMsg(res.data.message);
             setIsLoading(false);
@@ -395,7 +410,7 @@ function HomePage() {
    };
 
    //Thêm 1 sản phẩm vào bill thanh toán
-   const handleBuy = async (id, quantity) => {
+   const handleBuy = async (coffee, quantity) => {
       if (localStorage.getItem('isLogin')) {
          let tempCheckTopping = document.getElementById('list-topping');
          await setListCheckTopping([]);
@@ -410,16 +425,18 @@ function HomePage() {
          let tempCheckSize = document.querySelectorAll('[name = "check"]');
          for (let i = 0; i < tempCheckSize.length; i++) {
             if (tempCheckSize[i].checked) {
+               tempItem = new Object();
+               tempItem = coffee;
+               tempItem['quantity'] = quantity;
+               tempItem['listCheckedTP'] = listCheckTopping;
+               tempItem['price'] = price;
                listCoffee.map(async (item) => {
-                  if (item.id == id) {
-                     item['size'] = tempCheckSize[i].getAttribute('id');
-                     item['quantity'] = quantity;
-                     item['listCheckedTP'] = listCheckTopping;
-                     item['price'] = price;
-                     await setListCoffeeBill((list) => [...list, item]);
-                     setQuantityCoffee(1);
+                  if (item.id == coffee.id) {
+                     tempItem['size'] = tempCheckSize[i].getAttribute('id');
                   }
                });
+               setListCoffeeBill((list) => [item, ...list]);
+               setQuantityCoffee(1);
 
                break;
             }
@@ -440,6 +457,10 @@ function HomePage() {
 
    //Hiện bản chọn bàn
    const handleTable = () => {
+      if (listCoffeeBill.length == 0) {
+         alert('Bạn chưa chọn món!');
+         return;
+      }
       setTable(true);
    };
 
@@ -486,6 +507,7 @@ function HomePage() {
                quantityCoffee={quantityCoffee}
                price={price}
                setPrice={setPrice}
+               listTopping={listTopping}
             />
          )}
          <Bill
@@ -493,6 +515,7 @@ function HomePage() {
             handleClose={handleCloseCoffeBill}
             handleTable={handleTable}
             handleCancel={handleCancelBill}
+            listTopping={listTopping}
          />
          {table && <TableHome listTable={listTable} handleClose={tableClose} chooseTbl={chooseTbl} />}
          {renderLogin && (

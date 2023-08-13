@@ -8,6 +8,6 @@ export const getData = (url, token) => {
    });
 };
 
-export const postData = async (url, data, token) => {
-   return await axios.post(BASE_URL + url, data, { headers: { accessToken: token } });
+export const postData = (url, data, token) => {
+   return axios.post(BASE_URL + url, data, { headers: { accessToken: token } });
 };

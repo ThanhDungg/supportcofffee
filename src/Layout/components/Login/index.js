@@ -14,7 +14,7 @@ function Login({ clickClose, forgotpass, handleLogin, changeTaiKhoan, changeMatK
             <FontAwesomeIcon className={cx('close')} icon={faClose} onClick={clickClose} />
             <img
                className={cx('img')}
-               src="https://scontent.fsgn19-1.fna.fbcdn.net/v/t39.30808-6/345443153_1189417021749623_5664473820944885617_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=j3UY65Qg1FoAX8LSM-j&_nc_ht=scontent.fsgn19-1.fna&oh=00_AfDYy8jfEq18rWM_paDCzLPDlGhZ8U7A0C_HdJ_7cFjraw&oe=64A6D04E"
+               src="https://www.acouplecooks.com/wp-content/uploads/2020/09/Latte-Art-066s.jpg"
             />
             <span className={cx('login')}>
                <Input placeholder="Tai khoan" title="Tài khoản" change={changeTaiKhoan} />

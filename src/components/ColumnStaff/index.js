@@ -21,7 +21,6 @@ function ColumnStaff({ item, onClickContract }) {
          </td>
          <td className={cx('column', 'column-id')}>{item.id}</td>
          <td className={cx('column', 'column-name')}>{item.fullName}</td>
-         <td className={cx('column', 'column-date')}>{item.date}</td>
          <td className={cx('column', 'column-adress')}>{item.adress}</td>
          <td className={cx('column', 'column-email')}>{item.Email}</td>
          <td className={cx('column', 'column-sdt')}>{item.sdt}</td>

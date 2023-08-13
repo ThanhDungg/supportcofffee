@@ -11,7 +11,7 @@ const publicsRoutes = [
    { path: '/', component: HomePage, Layout: HomePage },
    { path: '/bartender', component: BartenderPage, Layout: BartenderPage },
    { path: '/table', component: TablePage, Layout: TablePage },
-   { path: '/profile/:id', component: ProfilePage, Layout: ProfilePage },
+   { path: '/profile', component: ProfilePage, Layout: ProfilePage },
    { path: '/managerstaff', component: StaffManagerPage, Layout: StaffManagerPage },
    { path: '/promotion', component: PromotionPage, Layout: PromotionPage },
    { path: '/user/:id', component: HomeUserPage, Layout: HomeUserPage },

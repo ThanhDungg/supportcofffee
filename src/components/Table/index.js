@@ -7,15 +7,13 @@ import { useState } from 'react';
 const cx = classNames.bind(styles);
 
 function Table({
-   tableName,
-   status,
+   table,
    children2,
    isTablePage = false,
    showChangeTable,
-   showPayBill,
-   setShowPayBill,
    showTablePairing,
    chooseTbl,
+   handleShowPayBill,
 }) {
    const [choose, setChoose] = useState(true);
    const [choose2, setChoose2] = useState(true);
@@ -36,27 +34,32 @@ function Table({
       setChoose(true);
    };
 
-   const handleShowPayBill = () => {
-      setShowPayBill(true);
-   };
+   // const handleShowPayBill = () => {
+   //    setShowPayBill(true);
+   // };
 
-   return status ? (
+   return !table.status ? (
       <div className={!isTablePage ? cx('full-table') : cx('full-tablepage')}>
          {!isTablePage ? (
             <div>
                <FontAwesomeIcon className={cx('icon-full')} icon={faStapler} />
-               <div className={cx('name-table')}>{tableName} - Full</div>
+               <div className={cx('name-table')}>{table.name_table} - Full</div>
             </div>
          ) : (
             <div>
                {choose2 ? (
                   <div>
                      <FontAwesomeIcon className={cx('icon-fulltablepage')} icon={faStapler} onClick={handleTableFull} />
-                     <div className={cx('name-table')}>{tableName} - Full</div>
+                     <div className={cx('name-table')}>{table.name_table} - Full</div>
                   </div>
                ) : (
                   <div>
-                     <button className={cx('btn-paytbale')} onClick={handleShowPayBill}>
+                     <button
+                        className={cx('btn-paytbale')}
+                        onClick={() => {
+                           handleShowPayBill(table.id);
+                        }}
+                     >
                         Thanh toán
                      </button>
                      <br />
@@ -77,7 +80,7 @@ function Table({
          {choose ? (
             <div>
                <FontAwesomeIcon className={cx('icon-empty')} icon={faStapler} onClick={handleTableEmpty} />
-               <div className={cx('name-table')}>{tableName} - Empty</div>
+               <div className={cx('name-table')}>{table.name_table} - Empty</div>
                {children2}
             </div>
          ) : (

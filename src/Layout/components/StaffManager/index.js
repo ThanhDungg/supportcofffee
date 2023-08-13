@@ -177,7 +177,6 @@ function StaffManager({ handleAddStaff, handleLockStaff, onClickContract, listSt
                   <td className={cx('title-column')}></td>
                   <td className={cx('title-column')}>ID</td>
                   <td className={cx('title-column')}>Họ tên</td>
-                  <td className={cx('title-column')}>Ngày sinh</td>
                   <td className={cx('title-column')}>Dịa chỉ</td>
                   <td className={cx('title-column')}>Email</td>
                   <td className={cx('title-column')}>Số điện thoại</td>

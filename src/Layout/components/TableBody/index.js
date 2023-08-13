@@ -4,18 +4,17 @@ import Table from '../../../components/Table';
 
 const cx = classNames.bind(styles);
 
-function TableBody({ listTable, showChangeTable, setShowPayBill, showTablePairing }) {
+function TableBody({ listTable, showChangeTable, showTablePairing, handleShowPayBill }) {
    return (
       <div className={cx('wrapper')}>
          {listTable.map((tb) => {
             return (
                <Table
                   isTablePage={true}
-                  tableName={tb.Name}
-                  status={tb.Status}
+                  table={tb}
                   showChangeTable={showChangeTable}
-                  setShowPayBill={setShowPayBill}
                   showTablePairing={showTablePairing}
+                  handleShowPayBill={handleShowPayBill}
                />
             );
          })}

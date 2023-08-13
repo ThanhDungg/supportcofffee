@@ -2,15 +2,32 @@ import classNames from 'classnames/bind';
 import styles from './PayBillTable.module.scss';
 import Button from '../../../components/Button';
 import CoffeePayBill from '../../../components/CoffeePayBill';
+import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function PayBillTable({ idBill, setShowPayBill }) {
+function PayBillTable({ list, setShowPayBill, listTopping, bill, handlePayment }) {
    let timeReal = new Date();
+
+   const [total, setTotal] = useState(0);
 
    const handleHiddenPayBill = () => {
       setShowPayBill(false);
    };
+
+   var temp = 0;
+   var tempTotal = 0;
+
+   useEffect(() => {
+      setTotal(0);
+      list.map((coffee) => {
+         coffee.topping_details.map((tp) => {
+            setTotal((price) => price + parseInt(tp.price));
+         });
+         setTotal((price) => (price + parseInt(coffee.price)) * coffee.quantity);
+      });
+   }, [list.length]);
+   console.log(list);
 
    return (
       <div className={cx('wrapper')}>
@@ -20,17 +37,7 @@ function PayBillTable({ idBill, setShowPayBill }) {
                <div className={cx('paybill-title')}>Hóa đơn</div>
                -------------------------------------------------------
                <div className={cx('bill-content')}>
-                  <div>
-                     Mã số bill: {timeReal.getFullYear()}
-                     {timeReal.getMonth() + 1}
-                     {timeReal.getDate()}
-                     {timeReal.getHours()}
-                     {timeReal.getMinutes()}
-                     {timeReal.getSeconds()}
-                  </div>
-                  <div>Khách hàng: Nguyễn Thanh Dũng</div>
-                  <div>SDT: 0343263672</div>
-                  <div>Bàn số: 5, 6.</div>
+                  <div>Mã số bill:{bill.id}</div>
                   <div>
                      Thời gian: {timeReal.getHours()}:{timeReal.getMinutes()}:{timeReal.getSeconds()} ngày{' '}
                      {timeReal.getDate()}/{timeReal.getMonth() + 1}/{timeReal.getFullYear()}{' '}
@@ -43,19 +50,22 @@ function PayBillTable({ idBill, setShowPayBill }) {
                      <span className={cx('span')}>Tổng</span>
                   </div>
                   <div className={cx('coffee')}>
-                     <CoffeePayBill />
-                     <CoffeePayBill />
-                     <CoffeePayBill />
-                     <CoffeePayBill />
-                     <CoffeePayBill />
-                     <CoffeePayBill />
-                     <CoffeePayBill />
+                     {list.map((item) => {
+                        return <CoffeePayBill item={item} listTopping={listTopping} />;
+                     })}
                   </div>
-                  <div className={cx('sum')}>Tổng cộng: 20.000vnd</div>
+                  {list.map((item) => {
+                     temp = parseInt(item.price);
+                     item.topping_details.map((tp) => {
+                        temp = temp + parseInt(tp.price);
+                     });
+                     tempTotal = tempTotal + temp * item.quantity;
+                  })}
+                  <div className={cx('sum')}>Tổng cộng: {tempTotal.toLocaleString()}vnd</div>
                </div>
             </div>
             <div>
-               <Button title="Xác nhận" />
+               <Button title="Xác nhận" click={handlePayment} />
                <Button title="Hủy" click={handleHiddenPayBill} />
             </div>
          </div>

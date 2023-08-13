@@ -12,7 +12,7 @@ function WaitConfirmUser({ wait, handleCancelOrder }) {
          <div>
             <FontAwesomeIcon className={cx('icon')} icon={faSpinner} />
          </div>
-         <div>
+         {/* <div>
             {wait ? (
                <button
                   className={cx('btn')}
@@ -27,7 +27,7 @@ function WaitConfirmUser({ wait, handleCancelOrder }) {
                   Hủy
                </button>
             )}
-         </div>
+         </div> */}
       </div>
    );
 }

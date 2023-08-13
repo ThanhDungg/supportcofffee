@@ -1,28 +1,50 @@
 import classNames from 'classnames/bind';
 import styles from './PayBillUser.module.scss';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faMoneyCheckDollar } from '@fortawesome/free-solid-svg-icons';
 import Button from '../../../components/Button';
 import CoffeePayBillUser from '../../../components/CoffeePayBillUser';
+import { SocketContext } from '../../../App';
+import { getData } from '../../../configs/fetchData';
+import { getBill } from '../../../configs/config';
 
 const cx = classNames.bind(styles);
 
-function PayBillUser({ listCoffeePay }) {
+function PayBillUser({ listCoffeePay, id, setWaitConfirm, billDetails }) {
+   const socket = useContext(SocketContext);
    let timeReal = new Date();
    const [hidden, setHidden] = useState(true);
    const [total, setTotal] = useState(0);
+   const [totalMoney, setTotalMoney] = useState(0);
 
    const handleHiddenPayBill = () => {
       setHidden(true);
    };
 
-   useEffect(() => {
-      setTotal(0);
-      listCoffeePay.map((item) => {
-         setTotal((tt) => tt + item.price * item.quantity);
-      });
-   }, [listCoffeePay.length]);
+   const handleRequestPayment = () => {
+      if (listCoffeePay.length == 0) {
+         alert('Hóa đơn đang trống');
+         return;
+      } else {
+         if (!window.confirm('Bạn muốn thanh toán hóa đơn?')) {
+            return;
+         }
+         setWaitConfirm(true);
+         socket.emit('requestPayment', {
+            id_table: id,
+            title: `Thanh toán hóa đơn bàn số ${id}`,
+            listCoffeePay: listCoffeePay,
+            noti: 'Thông báo tính tiền!',
+            type: 2,
+         });
+      }
+   };
+
+   console.log(listCoffeePay);
+
+   var temp = 0;
+   var tempTotal = 0;
 
    return (
       <div>
@@ -42,17 +64,7 @@ function PayBillUser({ listCoffeePay }) {
                      <div className={cx('paybill-title')}>Hóa đơn</div>
                      -------------------------------------------------------
                      <div className={cx('bill-content')}>
-                        <div>
-                           Mã số bill: {timeReal.getFullYear()}
-                           {timeReal.getMonth() + 1}
-                           {timeReal.getDate()}
-                           {timeReal.getHours()}
-                           {timeReal.getMinutes()}
-                           {timeReal.getSeconds()}
-                        </div>
-                        <div>Khách hàng: Nguyễn Thanh Dũng</div>
-                        <div>SDT: 0343263672</div>
-                        <div>Bàn số: 5, 6.</div>
+                        <div>Mã số bill: {billDetails != undefined ? billDetails.id : ''}</div>
                         <div>
                            Thời gian: {timeReal.getHours()}:{timeReal.getMinutes()}:{timeReal.getSeconds()} ngày{' '}
                            {timeReal.getDate()}/{timeReal.getMonth() + 1}/{timeReal.getFullYear()}{' '}
@@ -65,15 +77,24 @@ function PayBillUser({ listCoffeePay }) {
                            <span className={cx('span')}>Tổng</span>
                         </div>
                         <div className={cx('coffee')}>
-                           {listCoffeePay.map((coffee) => {
-                              return <CoffeePayBillUser item={coffee} />;
-                           })}
+                           {listCoffeePay != undefined
+                              ? listCoffeePay.map((coffee) => {
+                                   return <CoffeePayBillUser item={coffee} />;
+                                })
+                              : ''}
                         </div>
-                        <div className={cx('sum')}>Tổng cộng: {total.toLocaleString()}vnd</div>
+                        {listCoffeePay.map((item) => {
+                           temp = parseInt(item.price);
+                           item.topping_details.map((tp) => {
+                              temp = temp + parseInt(tp.price);
+                           });
+                           tempTotal = tempTotal + temp * item.quantity;
+                        })}
+                        <div className={cx('sum')}>Tổng cộng: {tempTotal.toLocaleString()}vnd</div>
                      </div>
                   </div>
                   <div>
-                     <Button title="Tính tiền" />
+                     <Button title="Tính tiền" click={handleRequestPayment} />
                      <Button title="Hủy" click={handleHiddenPayBill} />
                   </div>
                </div>

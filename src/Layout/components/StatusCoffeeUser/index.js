@@ -18,25 +18,8 @@ function StatusCoffeeUser({
    handleAddCoffee,
    setQuantityMoney,
    quantityMoney,
+   listTopping,
 }) {
-   const listTopping = [
-      {
-         id: 1,
-         name: 'Trân châu đen',
-         price: 5000,
-      },
-      {
-         id: 2,
-         name: 'Trân châu trắng',
-         price: 7000,
-      },
-      {
-         id: 3,
-         name: 'Thạch',
-         price: 9000,
-      },
-   ];
-
    const [state, setState] = useState(1);
 
    var temp;
@@ -56,13 +39,13 @@ function StatusCoffeeUser({
       tempCheckbox = document.querySelectorAll('[name = "checktopping"]');
       for (let i = 0; i < tempCheckbox.length; i++) {
          if (tempCheckbox[i].checked) {
-            tempListCheckTopping.push(tempCheckbox[i].value);
+            tempListCheckTopping.push(tempCheckbox[i].getAttribute('id'));
          }
       }
       listTopping.map((topping) => {
          tempListCheckTopping.map((checkTP) => {
             if (parseInt(checkTP) == topping.id) {
-               tempMoney = +tempMoney + topping.price;
+               tempMoney = +tempMoney + parseInt(topping.price);
             }
          });
       });
@@ -119,8 +102,14 @@ function StatusCoffeeUser({
                   {listTopping.map((topping) => {
                      return (
                         <div>
-                           <input onClick={handleChangeSize} name="checktopping" type="checkbox" value={topping.id} />{' '}
-                           {topping.name} - {topping.price.toLocaleString()}vnd
+                           <input
+                              onClick={handleChangeSize}
+                              name="checktopping"
+                              type="checkbox"
+                              value={topping.price}
+                              id={topping.id}
+                           />{' '}
+                           {topping.name_topping} - {parseInt(topping.price).toLocaleString()}vnd
                         </div>
                      );
                   })}

@@ -9,10 +9,9 @@ import CoffeeBill from '../../../components/CoffeeBill';
 
 const cx = classNames.bind(styles);
 
-function BillUser({ listCoffee, handleClose, handleCancelBillUser, handleOrder }) {
+function BillUser({ listCoffee, handleClose, handleCancelBillUser, handleOrder, listTopping }) {
    const [hidden, setHidden] = useState(true);
    const [total, setTotal] = useState(0);
-   console.log(listCoffee);
 
    useEffect(() => {
       setTotal(0);
@@ -42,6 +41,7 @@ function BillUser({ listCoffee, handleClose, handleCancelBillUser, handleOrder }
                            handleClose={() => {
                               handleClose(coffee);
                            }}
+                           listTopping={listTopping}
                         />
                      );
                   })}

@@ -8,6 +8,9 @@ import { faBell, faMugHot, faTableList } from '@fortawesome/free-solid-svg-icons
 import { Link, useNavigate } from 'react-router-dom';
 import Noti from '../../components/Noti';
 import { SocketContext } from '../../App';
+import { postData } from '../../configs/fetchData';
+import { addBill_Url } from '../../configs/config';
+import axios from 'axios';
 
 const cx = classNames.bind(styles);
 
@@ -33,35 +36,60 @@ function Header({ clickLogin, handlNotifi }) {
    const navigate = useNavigate();
 
    const [listNoti, setListNoti] = useState([]);
+   const [listNotiBartender, setListNotiBartender] = useState([]);
+   const [listOrder, setListOrder] = useState([]);
+   const [listCoffeePost, setListCoffeePost] = useState([]);
 
    const [show, setShow] = useState(false);
    const handleMouseOver = () => {
       setShow(!show);
    };
 
-   const clickLogout = () => {
-      localStorage.removeItem('isLogin');
-
+   const clickLogout = async () => {
+      await localStorage.removeItem('isLogin');
+      await localStorage.removeItem('idUser');
+      await localStorage.removeItem('idRole');
+      await localStorage.removeItem('accessToken');
+      // await socket.emit('disconnect');
       navigate('/');
       window.location.reload();
    };
 
-   const handleAcp = async (id) => {
+   const handleAcp = async (id, type) => {
       if (!window.confirm('Xác nhận đơn!')) {
          return;
-      }
-      await socket.emit('approve', {
-         tableNo: id,
-         title: 'Đơn đã được xác nhận',
-      });
-      await setListNoti((list) => list.filter((item) => item.id_table != id));
-   };
+      } else if (type == 1) {
+         await setListNoti((list) => list.filter((item) => item.id_table != id));
+         console.log(listCoffeePost);
+         const fetchDT = async () => {
+            const res = await postData(
+               addBill_Url + `/${id}`,
+               {
+                  details: JSON.stringify(listCoffeePost),
+               },
+               localStorage.getItem('accessToken'),
+            );
+            console.log(res);
+            if (res.data.message == 'Add successfull') {
+               await socket.emit('approve', {
+                  tableNo: id,
+                  title: 'Đơn đã được thêm.',
+               });
+            } else if (res.data.message == 'Create successfull') {
+               await socket.emit('approve', {
+                  tableNo: id,
+                  title: 'Đơn đã được xác nhận',
+               });
+            }
 
-   useEffect(() => {
-      socket.on('decline', (data) => {
-         console.log(data);
-      });
-   }, [socket]);
+            listOrder[0]['id_table'] = id;
+            await socket.emit('requestBartending', listOrder);
+         };
+         fetchDT();
+      } else if (type == 2) {
+         await setListNoti((list) => list.filter((item) => item.id_table != id));
+      }
+   };
 
    const handleCancel = async (id) => {
       if (!window.confirm('Bạn muốn hủy đơn?')) {
@@ -75,10 +103,45 @@ function Header({ clickLogin, handlNotifi }) {
       await setListNoti((list) => list.filter((item) => item.id_table != id));
    };
 
+   const handleBartenderAcp = async (id) => {
+      await setListNotiBartender((list) => list.filter((item) => item.id_table != id));
+   };
+
    useEffect(() => {
-      socket.on('order', (data) => {
+      socket.on('order', async (data) => {
+         await setListNoti((list) => [data, ...list]);
+         await setListOrder(data.listCoffeeOrder);
+         await setListCoffeePost([]);
+         console.log(data.listCoffeeOrder);
+
+         // await setListCoffeePost([]);
+         data.listCoffeeOrder.map(async (order) => {
+            var object = new Object();
+            order.size_details.map((si) => {
+               if (si.id_size == parseInt(order.id_size_details)) {
+                  object['id_size_details'] = si.id;
+                  object['price'] = parseInt(si.price).toString();
+               }
+            });
+            object['listTopping'] = order.listCheckedTP;
+            object['quantity'] = order.quantity;
+            await setListCoffeePost((list) => [...list, object]);
+         });
+         await console.log(JSON.stringify(listCoffeePost));
+      });
+
+      socket.on('requestPayment', async (data) => {
          console.log(data);
-         setListNoti((list) => [data, ...list]);
+         await setListNoti((list) => [data, ...list]);
+      });
+
+      socket.on('finish', async (data) => {
+         console.log(data);
+         await setListNoti((list) => [data, ...list]);
+      });
+
+      socket.on('requestBartending', async (data) => {
+         await setListNotiBartender((list) => [data, ...list]);
       });
    }, [socket]);
 
@@ -162,44 +225,44 @@ function Header({ clickLogin, handlNotifi }) {
    //             </div>
    //          </div>
    //       );
-   //    } else if (parseInt(localStorage.getItem('idRole')) === 0) {
-   //       return (
-   //          <div className={cx('form-profile')}>
-   //             <div>
-   //                <Link to={'/table'}>
-   //                   <FontAwesomeIcon className={cx('icon-list-table')} icon={faTableList} />
-   //                </Link>
-   //             </div>
-   //             <div className={cx('place-profile')} onClick={handleMouseOver}>
-   //                <div>
-   //                   <img
-   //                      className={cx('img')}
-   //                      src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg"
-   //                   />
-   //                </div>
-
-   //                {show && (
-   //                   <div className={cx('profile-logout')}>
-   //                      <Link to={'/managerstaff'} className={cx('profile-link')}>
-   //                         <div className={cx('profile')}>Staff</div>
-   //                      </Link>
-
-   //                      <Link className={cx('profile-link')}>
-   //                         <div className={cx('profile')}>Coffee</div>
-   //                      </Link>
-
-   //                      <Link className={cx('profile-link')} to={`/profile/${localStorage.getItem('idUser')}`}>
-   //                         <div className={cx('profile')}>Profile</div>
-   //                      </Link>
-   //                      <div className={cx('logout')} onClick={clickLogout}>
-   //                         Logout
-   //                      </div>
-   //                   </div>
-   //                )}
-   //             </div>
+   // } else if (parseInt(localStorage.getItem('idRole')) === 0) {
+   //    return (
+   //       <div className={cx('form-profile')}>
+   //          <div>
+   //             <Link to={'/table'}>
+   //                <FontAwesomeIcon className={cx('icon-list-table')} icon={faTableList} />
+   //             </Link>
    //          </div>
-   //       );
-   //    }
+   //          <div className={cx('place-profile')} onClick={handleMouseOver}>
+   //             <div>
+   //                <img
+   //                   className={cx('img')}
+   //                   src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg/640px-Tazzina_di_caff%C3%A8_a_Ventimiglia.jpg"
+   //                />
+   //             </div>
+
+   //             {show && (
+   //                <div className={cx('profile-logout')}>
+   //                   <Link to={'/managerstaff'} className={cx('profile-link')}>
+   //                      <div className={cx('profile')}>Staff</div>
+   //                   </Link>
+
+   //                   <Link className={cx('profile-link')}>
+   //                      <div className={cx('profile')}>Coffee</div>
+   //                   </Link>
+
+   //                   <Link className={cx('profile-link')} to={`/profile/${localStorage.getItem('idUser')}`}>
+   //                      <div className={cx('profile')}>Profile</div>
+   //                   </Link>
+   //                   <div className={cx('logout')} onClick={clickLogout}>
+   //                      Logout
+   //                   </div>
+   //                </div>
+   //             )}
+   //          </div>
+   //       </div>
+   //    );
+   // }
    // };
 
    return (
@@ -215,34 +278,61 @@ function Header({ clickLogin, handlNotifi }) {
                <ul className={cx('row-sidebar')}>LIÊN HỆ</ul>
             </label>
          </div>
-         {/* <div>{renderHeader()}</div> */}
          {localStorage.getItem('isLogin') ? (
             <div className={cx('form-profile')}>
-               <div>
-                  <Link to={'/table'}>
-                     <FontAwesomeIcon className={cx('icon-list-table')} icon={faTableList} />
-                  </Link>
-               </div>
+               {localStorage.getItem('idRole') == 2 ? (
+                  <div>
+                     <Link to={'/table'}>
+                        <FontAwesomeIcon className={cx('icon-list-table')} icon={faTableList} />
+                     </Link>
+                  </div>
+               ) : localStorage.getItem('idRole') == 1 ? (
+                  <div>
+                     <Link to={'/bartender'}>
+                        <FontAwesomeIcon className={cx('icon-list-table')} icon={faMugHot} />
+                     </Link>
+                  </div>
+               ) : (
+                  ''
+               )}
                <div className={cx('noti-staff')}>
                   <div>
                      <FontAwesomeIcon className={cx('icon-list-table')} icon={faBell} />
                   </div>
                   <div className={cx('thongbao')}>
-                     {listNoti.map((noti) => {
-                        return (
-                           <Noti
-                              titleNoti={noti.noti}
-                              contentNoti={noti.title}
-                              time={'10:12:12'}
-                              handleAcp={() => {
-                                 handleAcp(noti.id_table);
-                              }}
-                              handleCancel={() => {
-                                 handleCancel(noti.id_table);
-                              }}
-                           />
-                        );
-                     })}
+                     {localStorage.getItem('idRole') == 2
+                        ? listNoti.map((noti) => {
+                             return (
+                                <Noti
+                                   type={noti.type}
+                                   titleNoti={noti.noti}
+                                   contentNoti={noti.title}
+                                   time={'10:12:12'}
+                                   handleAcp={() => {
+                                      handleAcp(noti.id_table, noti.type);
+                                   }}
+                                   handleCancel={() => {
+                                      handleCancel(noti.id_table);
+                                   }}
+                                />
+                             );
+                          })
+                        : listNotiBartender.map((noti) => {
+                             return (
+                                <Noti
+                                   titleNoti={noti.noti}
+                                   type={2}
+                                   contentNoti={noti.title}
+                                   time={'10:12:12'}
+                                   handleAcp={() => {
+                                      setListNotiBartender((list) =>
+                                         list.filter((item) => item.id_table != noti.id_table),
+                                      );
+                                      handleBartenderAcp(noti.id_table);
+                                   }}
+                                />
+                             );
+                          })}
                   </div>
                </div>
                <div className={cx('place-profile')} onClick={handleMouseOver}>
@@ -255,15 +345,21 @@ function Header({ clickLogin, handlNotifi }) {
 
                   {show && (
                      <div className={cx('profile-logout')}>
-                        <Link to={'/managerstaff'} className={cx('profile-link')}>
-                           <div className={cx('profile')}>Staff</div>
-                        </Link>
+                        {localStorage.getItem('idRole') == 3 ? (
+                           <div>
+                              <Link to={'/managerstaff'} className={cx('profile-link')}>
+                                 <div className={cx('profile')}>Staff</div>
+                              </Link>
 
-                        <Link className={cx('profile-link')}>
-                           <div className={cx('profile')}>Coffee</div>
-                        </Link>
+                              <Link className={cx('profile-link')}>
+                                 <div className={cx('profile')}>Coffee</div>
+                              </Link>
+                           </div>
+                        ) : (
+                           ''
+                        )}
 
-                        <Link className={cx('profile-link')} to={`/profile/${localStorage.getItem('idUser')}`}>
+                        <Link className={cx('profile-link')} to={`/profile`}>
                            <div className={cx('profile')}>Profile</div>
                         </Link>
                         <div className={cx('logout')} onClick={clickLogout}>

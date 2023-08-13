@@ -9,25 +9,17 @@ import { useEffect, useState } from 'react';
 
 const cx = classNames.bind(styles);
 
-function Coffee({ coffee, handleClose, handleBuy, handleAddCoffee, handleAbsCoffee, quantityCoffee, price, setPrice }) {
-   const listTopping = [
-      {
-         id: 1,
-         name: 'Trân châu đen',
-         price: 5000,
-      },
-      {
-         id: 2,
-         name: 'Trân châu trắng',
-         price: 7000,
-      },
-      {
-         id: 3,
-         name: 'Thạch',
-         price: 9000,
-      },
-   ];
-
+function Coffee({
+   coffee,
+   handleClose,
+   handleBuy,
+   handleAddCoffee,
+   handleAbsCoffee,
+   quantityCoffee,
+   price,
+   setPrice,
+   listTopping,
+}) {
    const [state, setState] = useState(0);
 
    useEffect(() => {
@@ -111,7 +103,7 @@ function Coffee({ coffee, handleClose, handleBuy, handleAddCoffee, handleAbsCoff
                               value={t.id}
                               onClick={handleSetState}
                            />
-                           {t.name} - {t.price.toLocaleString()}vnd
+                           {t.name_topping} - {parseInt(t.price).toLocaleString()}vnd
                         </div>
                      );
                   })}
@@ -127,7 +119,7 @@ function Coffee({ coffee, handleClose, handleBuy, handleAddCoffee, handleAbsCoff
                   <Button
                      title="Mua"
                      click={() => {
-                        handleBuy(coffee.id, quantityCoffee);
+                        handleBuy(coffee, quantityCoffee);
                      }}
                   />
                </div>

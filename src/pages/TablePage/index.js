@@ -1,28 +1,48 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Footer from '../../Layout/Footer';
 import Header from '../../Layout/Header';
 import EmptyTablePage from '../../Layout/components/EmptyTablePage';
 import TableBody from '../../Layout/components/TableBody';
 import PayBillTable from '../../Layout/components/PayBillTable';
+import { getData, postData } from '../../configs/fetchData';
+import { getBill, getTable, payBill } from '../../configs/config';
 
 function TablePage() {
-   const listTable = [
-      { id: 1, Name: 'Ban 1', Status: 1 },
-      { id: 2, Name: 'Ban 2', Status: 1 },
-      { id: 3, Name: 'Ban 3', Status: 0 },
-      { id: 4, Name: 'Ban 4', Status: 0 },
-      { id: 5, Name: 'Ban 5', Status: 1 },
-      { id: 6, Name: 'Ban 6', Status: 1 },
-      { id: 7, Name: 'Ban 7', Status: 1 },
-      { id: 8, Name: 'Ban 4', Status: 0 },
-      { id: 9, Name: 'Ban 5', Status: 1 },
-      { id: 10, Name: 'Ban 6', Status: 1 },
-      { id: 11, Name: 'Ban 7', Status: 1 },
-      { id: 8, Name: 'Ban 4', Status: 0 },
-      { id: 9, Name: 'Ban 5', Status: 1 },
-      { id: 10, Name: 'Ban 6', Status: 1 },
-      { id: 11, Name: 'Ban 7', Status: 1 },
+   const listTopping = [
+      {
+         id: 1,
+         name: 'Trân châu đen',
+         price: 5000,
+      },
+      {
+         id: 2,
+         name: 'Trân châu trắng',
+         price: 7000,
+      },
+      {
+         id: 3,
+         name: 'Thạch',
+         price: 9000,
+      },
    ];
+
+   const [idTable, setIdTable] = useState(0);
+   const [id, setId] = useState(0);
+
+   const [listCoffeePayBill, setListCoffeePayBill] = useState([]);
+   const [listTable, setListTable] = useState([]);
+   const [stateTable, setStateTable] = useState(0);
+
+   useEffect(() => {
+      const fetchData = async () => {
+         const res = await getData(getTable, '');
+         console.log(res);
+         setListTable(res.data.result);
+      };
+      fetchData();
+   }, [stateTable]);
+
+   const [bill, setBill] = useState();
 
    const [showChangeTable, setShowChangeTable] = useState(false);
    const [showtablePairing, setShowtablePairing] = useState(false);
@@ -45,18 +65,60 @@ function TablePage() {
       setShowtablePairing(false);
    };
 
+   const handleShowPayBill = async (id) => {
+      const res = await getData(getBill + `/${id}`, '');
+      setIdTable(id);
+
+      setId(id);
+      setBill(res.data.result[0]);
+      setListCoffeePayBill(res.data.result[0].bill_details);
+      setShowPayBill(true);
+      console.log(res);
+   };
+
+   const handlePayment = async () => {
+      if (!window.confirm(`Bạn muốn thanh toán bill bàn số ${idTable}?`)) {
+         return;
+      }
+      try {
+         const res = await postData(payBill + `/${idTable}`, {}, localStorage.getItem('accessToken'));
+         console.log(res);
+         if (res.data.message == 'success') {
+            listTable.map((tbl) => {
+               if (tbl.id == id) {
+                  tbl.status = !tbl.status;
+                  setShowPayBill(false);
+               }
+            });
+         } else {
+            alert('Lỗi');
+         }
+      } catch (e) {
+         console.log('Lỗi');
+      }
+   };
+
    return (
       <div>
          <Header show={show} setShow={setShow} />
          <TableBody
             listTable={listTable}
             showChangeTable={changeTable}
-            setShowPayBill={setShowPayBill}
             showTablePairing={handleShowTablePairing}
+            handleShowPayBill={handleShowPayBill}
          />
          {showChangeTable && <EmptyTablePage listTable={listTable} handleClose={handleClose} status={0} />}
          {showtablePairing && <EmptyTablePage listTable={listTable} handleClose={handleCloseTablePairing} status={1} />}
-         {showPayBill && <PayBillTable setShowPayBill={setShowPayBill} showPayBill={showPayBill} />}
+         {showPayBill && (
+            <PayBillTable
+               setShowPayBill={setShowPayBill}
+               showPayBill={showPayBill}
+               list={listCoffeePayBill}
+               listTopping={listTopping}
+               bill={bill}
+               handlePayment={handlePayment}
+            />
+         )}
          <Footer />
       </div>
    );
