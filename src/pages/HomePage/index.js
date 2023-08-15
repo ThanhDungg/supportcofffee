@@ -372,24 +372,26 @@ function HomePage() {
       } else if (matkhau == '') {
          setErrorMsg('Bạn chưa nhập mật khẩu');
       } else {
-         setIsLoading(true);
-         const res = await postData(login_Url, { email: taikhoan, password: matkhau }, '');
-         if (res.data.data != undefined) {
-            setIsLoading(false);
-            localStorage.setItem('accessToken', res.data.data.accessToken);
-            localStorage.setItem('isLogin', 1);
-            localStorage.setItem('idRole', res.data.data.staffDetail.id_role);
-            setRenderLogin(false);
-            if (res.data.data.staffDetail.id_role == 2) {
-               socket.emit('joinStaff', res.data.data.accessToken);
-            } else if (res.data.data.staffDetail.id_role == 1) {
-               socket.emit('joinBartender', res.data.data.accessToken);
-               navigate('/bartender');
+         try {
+            setIsLoading(true);
+            const res = await postData(login_Url, { email: taikhoan, password: matkhau }, '');
+            if (res.data.data != undefined) {
+               setIsLoading(false);
+               localStorage.setItem('accessToken', res.data.data.accessToken);
+               localStorage.setItem('isLogin', 1);
+               localStorage.setItem('idRole', res.data.data.staffDetail.id_role);
+               setRenderLogin(false);
+               if (res.data.data.staffDetail.id_role == 2) {
+                  socket.emit('joinStaff', res.data.data.accessToken);
+               } else if (res.data.data.staffDetail.id_role == 1) {
+                  socket.emit('joinBartender', res.data.data.accessToken);
+                  navigate('/bartender');
+               }
+            } else {
+               setErrorMsg(res.data.message);
+               setIsLoading(false);
             }
-         } else {
-            setErrorMsg(res.data.message);
-            setIsLoading(false);
-         }
+         } catch (e) {}
       }
    };
 

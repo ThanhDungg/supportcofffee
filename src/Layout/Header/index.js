@@ -62,28 +62,32 @@ function Header({ clickLogin, handlNotifi }) {
          await setListNoti((list) => list.filter((item) => item.id_table != id));
          console.log(listCoffeePost);
          const fetchDT = async () => {
-            const res = await postData(
-               addBill_Url + `/${id}`,
-               {
-                  details: JSON.stringify(listCoffeePost),
-               },
-               localStorage.getItem('accessToken'),
-            );
-            console.log(res);
-            if (res.data.message == 'Add successfull') {
-               await socket.emit('approve', {
-                  tableNo: id,
-                  title: 'Đơn đã được thêm.',
-               });
-            } else if (res.data.message == 'Create successfull') {
-               await socket.emit('approve', {
-                  tableNo: id,
-                  title: 'Đơn đã được xác nhận',
-               });
-            }
+            try {
+               const res = await postData(
+                  addBill_Url + `/${id}`,
+                  {
+                     details: JSON.stringify(listCoffeePost),
+                  },
+                  localStorage.getItem('accessToken'),
+               );
+               console.log(res);
+               if (res.data.message == 'Add successfull') {
+                  await socket.emit('approve', {
+                     tableNo: id,
+                     title: 'Đơn đã được thêm.',
+                  });
+               } else if (res.data.message == 'Create successfull') {
+                  await socket.emit('approve', {
+                     tableNo: id,
+                     title: 'Đơn đã được xác nhận',
+                  });
+               }
 
-            listOrder[0]['id_table'] = id;
-            await socket.emit('requestBartending', listOrder);
+               listOrder[0]['id_table'] = id;
+               await socket.emit('requestBartending', listOrder);
+            } catch (e) {
+               console.log(e);
+            }
          };
          fetchDT();
       } else if (type == 2) {

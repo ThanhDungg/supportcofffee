@@ -8,10 +8,10 @@ import { SocketContext } from '../../../App';
 
 const cx = classNames.bind(styles);
 
-function BartenderBill({ listCoffee }) {
+function BartenderBill({ listCoffee, list, index, setState }) {
    const socket = useContext(SocketContext);
 
-   const handleComplete = () => {
+   const handleComplete = async () => {
       if (!window.confirm('Xác nhận hoàn tất!')) {
          return;
       }
@@ -23,8 +23,9 @@ function BartenderBill({ listCoffee }) {
          noti: 'Thông báo hoàn thành!',
          type: 2,
       };
-      console.log(tempObject);
-      socket.emit('finish', tempObject);
+      await socket.emit('finish', tempObject);
+      list.splice(index, 1);
+      setState((state) => state + 1);
    };
    return (
       <div className={cx('wrapper')}>

@@ -35,9 +35,13 @@ function TablePage() {
 
    useEffect(() => {
       const fetchData = async () => {
-         const res = await getData(getTable, '');
-         console.log(res);
-         setListTable(res.data.result);
+         try {
+            const res = await getData(getTable, '');
+            console.log(res);
+            setListTable(res.data.result);
+         } catch (e) {
+            console.log(e);
+         }
       };
       fetchData();
    }, [stateTable]);
@@ -107,8 +111,10 @@ function TablePage() {
             showTablePairing={handleShowTablePairing}
             handleShowPayBill={handleShowPayBill}
          />
-         {showChangeTable && <EmptyTablePage listTable={listTable} handleClose={handleClose} status={0} />}
-         {showtablePairing && <EmptyTablePage listTable={listTable} handleClose={handleCloseTablePairing} status={1} />}
+         {showChangeTable && <EmptyTablePage listTable={listTable} handleClose={handleClose} status={true} />}
+         {showtablePairing && (
+            <EmptyTablePage listTable={listTable} handleClose={handleCloseTablePairing} status={false} />
+         )}
          {showPayBill && (
             <PayBillTable
                setShowPayBill={setShowPayBill}

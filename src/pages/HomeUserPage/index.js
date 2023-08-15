@@ -62,27 +62,37 @@ function HomeUserPage() {
    const [showStatusCoffee, setShowStatusCoffee] = useState(false);
    const [coffeeStatus, setCoffeeStatus] = useState(tempCoffee);
 
+   const [showBtnChangeTable, setShowBtnChangeTable] = useState(false);
    let tempItem = new Object();
 
    useEffect(() => {
       const fetchData = async () => {
-         const res = await getData(menu_url, '');
-         setListCoffee(res.data.result);
+         try {
+            const res = await getData(menu_url, '');
+            setListCoffee(res.data.result);
 
-         const res2 = await getData(getTopping, '');
-         setListTopping(res2.data.result);
+            const res2 = await getData(getTopping, '');
+            setListTopping(res2.data.result);
+         } catch (e) {
+            console.log(e);
+         }
       };
       fetchData();
    }, []);
 
    useEffect(() => {
       const fetchData = async () => {
-         const res = await getData(getBill + `/${id}`, '');
-         console.log(res);
-         if (res.data.result.length == 0) {
-         } else {
-            setBillDetails(res.data.result[0]);
-            setListCoffeeOrder(res.data.result[0].bill_details);
+         try {
+            const res = await getData(getBill + `/${id}`, '');
+            console.log(res);
+            if (res.data.result.length == 0) {
+            } else {
+               setBillDetails(res.data.result[0]);
+               setListCoffeeOrder(res.data.result[0].bill_details);
+               setShowBtnChangeTable(true);
+            }
+         } catch (e) {
+            console.log(e);
          }
       };
       fetchData();
@@ -199,9 +209,16 @@ function HomeUserPage() {
       setWaitConfirm(false);
    };
 
+   const handleReqChangetable = () => {
+      if (!window.confirm('Bạn muốn đổi bàn?')) {
+         return;
+      }
+      alert('abc');
+   };
+
    return (
       <div>
-         <HeaderUser />
+         <HeaderUser showBtnChangeTable={showBtnChangeTable} handleReqChangetable={handleReqChangetable} />
          <BodyUser listType={listType} listCoffee={listCoffee} handleStatusCoffee={handleStatusCoffee} />
          {showStatusCoffee && (
             <StatusCoffeeUser

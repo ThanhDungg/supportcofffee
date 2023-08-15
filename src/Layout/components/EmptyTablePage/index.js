@@ -11,8 +11,8 @@ function EmptyTablePage({ listTable, handleClose, status }) {
          <div className={cx('place-table')}>
             <Close hanldeClose={handleClose} />
             {listTable.map((tb) => {
-               if (tb.Status == status) {
-                  return <Table tableName={tb.Name} status={tb.Status} />;
+               if (tb.status == status) {
+                  return <Table table={tb} tableName={tb.name_table} status={tb.status} />;
                }
             })}
          </div>
