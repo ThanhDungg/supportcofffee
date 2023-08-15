@@ -6,9 +6,10 @@ import BillUser from '../../Layout/components/BillUser';
 import WaitConfirmUser from '../../Layout/components/WaitConfirmUser';
 import PayBillUser from '../../Layout/components/PayBillUser';
 import { getData } from '../../configs/fetchData';
-import { getBill, getTopping, menu_url } from '../../configs/config';
+import { getBill, getTable, getTopping, menu_url } from '../../configs/config';
 import { useParams } from 'react-router-dom';
 import { SocketContext } from '../../App';
+import TableChangeUser from '../../components/TableChangeUser';
 
 function HomeUserPage() {
    const { id } = useParams();
@@ -63,6 +64,7 @@ function HomeUserPage() {
    const [coffeeStatus, setCoffeeStatus] = useState(tempCoffee);
 
    const [showBtnChangeTable, setShowBtnChangeTable] = useState(false);
+   const [showTableChange, setShowTableChange] = useState(false);
    let tempItem = new Object();
 
    useEffect(() => {
@@ -210,10 +212,7 @@ function HomeUserPage() {
    };
 
    const handleReqChangetable = () => {
-      if (!window.confirm('Bạn muốn đổi bàn?')) {
-         return;
-      }
-      alert('abc');
+      setShowTableChange(true);
    };
 
    return (
@@ -243,6 +242,7 @@ function HomeUserPage() {
          {waitConfirm && (
             <WaitConfirmUser wait={wait} handleCancelOrder={handleCancelOrder} setWaitConfirm={setWaitConfirm} />
          )}
+         {showTableChange && <TableChangeUser setShowTableChange={setShowTableChange} idTable={id} />}
          <PayBillUser
             billDetails={billDetails}
             listCoffeePay={listCoffeeOrder}

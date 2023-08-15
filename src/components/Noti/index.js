@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-function Noti({ titleNoti, contentNoti, time, handleAcp, handleCancel, handStatus, type }) {
+function Noti({ titleNoti, contentNoti, time, handleAcp, handleCancel, handStatus, handleAcpChangeTable, type }) {
    return (
       <div className={cx('wrapper')}>
          <div className={cx('noti')}>
@@ -25,9 +25,15 @@ function Noti({ titleNoti, contentNoti, time, handleAcp, handleCancel, handStatu
                   Hủy
                </button>
             </div>
-         ) : (
+         ) : type == 2 ? (
             <div>
                <button className={cx('btn')} onClick={handleAcp}>
+                  Xác nhận
+               </button>
+            </div>
+         ) : (
+            <div>
+               <button className={cx('btn')} onClick={handleAcpChangeTable}>
                   Xác nhận
                </button>
             </div>
