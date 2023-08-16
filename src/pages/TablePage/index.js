@@ -70,14 +70,18 @@ function TablePage() {
    };
 
    const handleShowPayBill = async (id) => {
-      const res = await getData(getBill + `/${id}`, '');
-      setIdTable(id);
+      try {
+         const res = await getData(getBill + `/${id}`, '');
+         setIdTable(id);
 
-      setId(id);
-      setBill(res.data.result[0]);
-      setListCoffeePayBill(res.data.result[0].bill_details);
-      setShowPayBill(true);
-      console.log(res);
+         setId(id);
+         setBill(res.data.result[0]);
+         setListCoffeePayBill(res.data.result[0].bill_details);
+         setShowPayBill(true);
+         console.log(res);
+      } catch (e) {
+         console.log(e);
+      }
    };
 
    const handlePayment = async () => {

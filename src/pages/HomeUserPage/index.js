@@ -201,6 +201,14 @@ function HomeUserPage() {
          alert(`${data.title}`);
          setListCoffeeOrder([]);
       });
+
+      socket.on('approveChangeTable', async (data) => {
+         console.log(data);
+         if (data.id_table == id) {
+            alert('Bạn có thể đổi bàn.');
+            window.location.reload();
+         }
+      });
    }, [socket]);
 
    const handleCancelOrder = () => {
@@ -242,7 +250,7 @@ function HomeUserPage() {
          {waitConfirm && (
             <WaitConfirmUser wait={wait} handleCancelOrder={handleCancelOrder} setWaitConfirm={setWaitConfirm} />
          )}
-         {showTableChange && <TableChangeUser setShowTableChange={setShowTableChange} idTable={id} />}
+         {showTableChange && <TableChangeUser setShowTableChange={setShowTableChange} idTable={id} socket={socket} />}
          <PayBillUser
             billDetails={billDetails}
             listCoffeePay={listCoffeeOrder}

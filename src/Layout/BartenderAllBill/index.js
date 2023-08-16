@@ -7,7 +7,6 @@ import { SocketContext } from '../../App';
 const cx = classNames.bind(styles);
 
 function BartenderAllBill({ list }) {
-   const [listCoffee, setListCoffee] = useState(list);
    const [state, setState] = useState(0);
 
    useEffect(() => {}, [state]);

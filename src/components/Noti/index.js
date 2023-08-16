@@ -34,7 +34,7 @@ function Noti({ titleNoti, contentNoti, time, handleAcp, handleCancel, handStatu
          ) : (
             <div>
                <button className={cx('btn')} onClick={handleAcpChangeTable}>
-                  Xác nhận
+                  Chấp nhận
                </button>
             </div>
          )}

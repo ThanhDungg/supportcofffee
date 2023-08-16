@@ -8,8 +8,8 @@ import { faBell, faMugHot, faTableList } from '@fortawesome/free-solid-svg-icons
 import { Link, useNavigate } from 'react-router-dom';
 import Noti from '../../components/Noti';
 import { SocketContext } from '../../App';
-import { postData } from '../../configs/fetchData';
-import { addBill_Url } from '../../configs/config';
+import { postData, putData } from '../../configs/fetchData';
+import { addBill_Url, changetable } from '../../configs/config';
 import axios from 'axios';
 
 const cx = classNames.bind(styles);
@@ -92,6 +92,8 @@ function Header({ clickLogin, handlNotifi }) {
          fetchDT();
       } else if (type == 2) {
          await setListNoti((list) => list.filter((item) => item.id_table != id));
+      } else if (type == 3) {
+         await setListNoti((list) => list.filter((item) => item.id_table != id));
       }
    };
 
@@ -109,6 +111,29 @@ function Header({ clickLogin, handlNotifi }) {
 
    const handleBartenderAcp = async (id) => {
       await setListNotiBartender((list) => list.filter((item) => item.id_table != id));
+   };
+
+   const handleAcpChangeTable = async (id_table, id_newtable) => {
+      try {
+         const res = await putData(
+            changetable + `/${id_table}?table=${id_newtable}`,
+            {},
+            localStorage.getItem('accessToken'),
+         );
+         console.log(res);
+         if (res.data.status == 1) {
+            await setListNoti((list) => list.filter((item) => item.id_table != id_table));
+            socket.emit('approveChangeTable', {
+               id_table: id_table,
+               id_newtable: id_newtable,
+               title: `Bàn số ${id_table} đổi sang bàn số ${id_newtable}!`,
+               noti: 'Thông báo đổi bàn!',
+               type: 2,
+            });
+         }
+      } catch (e) {
+         console.log(e);
+      }
    };
 
    useEffect(() => {
@@ -146,6 +171,10 @@ function Header({ clickLogin, handlNotifi }) {
 
       socket.on('requestBartending', async (data) => {
          await setListNotiBartender((list) => [data, ...list]);
+      });
+
+      socket.on('changeTable', async (data) => {
+         await setListNoti((list) => [data, ...list]);
       });
    }, [socket]);
 
@@ -317,6 +346,9 @@ function Header({ clickLogin, handlNotifi }) {
                                    }}
                                    handleCancel={() => {
                                       handleCancel(noti.id_table);
+                                   }}
+                                   handleAcpChangeTable={() => {
+                                      handleAcpChangeTable(noti.id_table, noti.id_newtable);
                                    }}
                                 />
                              );

@@ -9,7 +9,7 @@ import TableUser from '../TableUser';
 
 const cx = classNames.bind(styles);
 
-function TableChangeUser({ setShowTableChange, idTable }) {
+function TableChangeUser({ setShowTableChange, idTable, socket }) {
    const [listTable, setListTable] = useState([]);
 
    useEffect(() => {
@@ -30,7 +30,14 @@ function TableChangeUser({ setShowTableChange, idTable }) {
          return;
       }
       try {
-         alert(`Vui lòng qua bàn số ${id} để quét lại mã QR, hóa đơn đã được chuyển sang bàn ${id}`);
+         socket.emit('changeTable', {
+            id_table: idTable,
+            id_newtable: id,
+            title: `Bàn số ${idTable} đổi sang bàn ${id}!`,
+            noti: 'Thông báo đổi bàn!',
+            type: 3,
+         });
+         // alert(`Vui lòng qua bàn số ${id} để quét lại mã QR, hóa đơn đã được chuyển sang bàn ${id}`);
       } catch (e) {
          console.log(e);
       }

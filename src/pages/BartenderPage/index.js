@@ -291,15 +291,18 @@ function BartenderPage() {
    const [show, setShow] = useState(false);
    const [bodyNotifi, setBodyNotifi] = useState(false);
    const [listBillBartender, setListBillBartender] = useState([]);
-   const [id_table, setID_table] = useState('');
 
    const socket = useContext(SocketContext);
 
    useEffect(() => {
-      socket.on('requestBartending', (data) => {
-         setListBillBartender((listBill) => [...listBill, data]);
-         console.log(data);
-      });
+      try {
+         socket.on('requestBartending', (data) => {
+            setListBillBartender((listBill) => [...listBill, data]);
+            console.log(data);
+         });
+      } catch (e) {
+         console.log(e);
+      }
    }, [socket]);
 
    const handlNotifi = () => {
