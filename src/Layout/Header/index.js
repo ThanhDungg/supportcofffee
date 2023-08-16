@@ -124,7 +124,7 @@ function Header({ clickLogin, handlNotifi }) {
          if (res.data.status == 1) {
             await setListNoti((list) => list.filter((item) => item.id_table != id_table));
             socket.emit('approveChangeTable', {
-               id_table: id_table,
+               tableNo: id_table,
                id_newtable: id_newtable,
                title: `Bàn số ${id_table} đổi sang bàn số ${id_newtable}!`,
                noti: 'Thông báo đổi bàn!',

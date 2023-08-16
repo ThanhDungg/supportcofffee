@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const cx = classNames.bind(styles);
 
-function HeaderUser({ showBtnChangeTable, handleReqChangetable }) {
+function HeaderUser({ showBtnChangeTable, handleReqChangetable, id }) {
    return (
       <div className={cx('wrapper')}>
          {showBtnChangeTable && (
@@ -14,7 +14,7 @@ function HeaderUser({ showBtnChangeTable, handleReqChangetable }) {
          )}
 
          <div className={showBtnChangeTable ? cx('title') : cx('title2')}>
-            <div>COFFEE NTD</div>
+            <div>COFFEE NTD Bàn {id}</div>
          </div>
       </div>
    );

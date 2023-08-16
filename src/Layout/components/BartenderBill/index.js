@@ -33,7 +33,7 @@ function BartenderBill({ listCoffee, list, index, setState }) {
    useEffect(() => {
       try {
          socket.on('approveChangeTable', async (data) => {
-            if (listCoffee[0].id_table == data.id_table) {
+            if (listCoffee[0].id_table == data.tableNo) {
                listCoffee[0].id_table = data.id_newtable;
                await setID_table(data.id_newtable);
             }

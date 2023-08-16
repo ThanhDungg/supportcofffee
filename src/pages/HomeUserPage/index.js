@@ -7,12 +7,13 @@ import WaitConfirmUser from '../../Layout/components/WaitConfirmUser';
 import PayBillUser from '../../Layout/components/PayBillUser';
 import { getData } from '../../configs/fetchData';
 import { getBill, getTable, getTopping, menu_url } from '../../configs/config';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { SocketContext } from '../../App';
 import TableChangeUser from '../../components/TableChangeUser';
 
 function HomeUserPage() {
    const { id } = useParams();
+   const navigate = useNavigate();
 
    const socket = useContext(SocketContext);
 
@@ -204,10 +205,9 @@ function HomeUserPage() {
 
       socket.on('approveChangeTable', async (data) => {
          console.log(data);
-         if (data.id_table == id) {
-            alert('Bạn có thể đổi bàn.');
-            window.location.reload();
-         }
+         // alert('Bạn có thể đổi bàn.');
+         await navigate(`/user/${data.id_newtable}`);
+         await window.location.reload();
       });
    }, [socket]);
 
@@ -225,7 +225,7 @@ function HomeUserPage() {
 
    return (
       <div>
-         <HeaderUser showBtnChangeTable={showBtnChangeTable} handleReqChangetable={handleReqChangetable} />
+         <HeaderUser showBtnChangeTable={showBtnChangeTable} handleReqChangetable={handleReqChangetable} id={id} />
          <BodyUser listType={listType} listCoffee={listCoffee} handleStatusCoffee={handleStatusCoffee} />
          {showStatusCoffee && (
             <StatusCoffeeUser
