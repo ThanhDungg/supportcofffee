@@ -200,7 +200,6 @@ function HomeUserPage() {
          console.log(data);
          setWaitConfirm(false);
          alert(`${data.title}`);
-         setListCoffeeOrder([]);
       });
 
       socket.on('approveChangeTable', async (data) => {
